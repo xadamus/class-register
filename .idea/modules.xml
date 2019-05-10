@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ng-app/ng-app.iml" filepath="$PROJECT_DIR$/ng-app/ng-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web-services/web-services.iml" filepath="$PROJECT_DIR$/web-services/web-services.iml" />
+    </modules>
+  </component>
+</project>
