@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
+import {ApiService} from '../shared/api.service';
 
 @Component({
   selector: 'app-contact',
@@ -13,14 +13,14 @@ export class ContactComponent implements OnInit {
     message: ''
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private apiService: ApiService) {
+  }
 
   ngOnInit() {
   }
 
   sendMessage(): void {
-    const url = 'http://localhost:8080/api/contact';
-    this.http.post(url, this.model).subscribe(
+    this.apiService.sendMessage(this.model).subscribe(
       res => {
         location.reload();
       }, err => {

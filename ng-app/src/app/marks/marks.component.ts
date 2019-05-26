@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Subject} from './model/subject';
+import {ApiService} from '../shared/api.service';
 
 @Component({
   selector: 'app-marks',
@@ -10,7 +10,7 @@ import {Subject} from './model/subject';
 export class MarksComponent implements OnInit {
   subjects: Subject[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     this.getAllSubjects();
@@ -18,7 +18,7 @@ export class MarksComponent implements OnInit {
 
   public getAllSubjects() {
     const url = 'http://localhost:8080/api/subjects/all';
-    this.http.get<Subject[]>(url).subscribe(
+    this.apiService.getAllSubjects().subscribe(
       res => {
         this.subjects = res;
       }, err => {
