@@ -1,14 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { ContactComponent } from './contact/contact.component';
-import { MarksComponent } from './marks/marks.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import {AppComponent} from './app.component';
+import {NavigationComponent} from './navigation/navigation.component';
+import {ContactComponent} from './contact/contact.component';
+import {MarksComponent} from './marks/marks.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {RouterModule} from '@angular/router';
+import {FormsModule} from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import {MarksGridComponent} from './marks/marks-grid/marks-grid.component';
 
 const appRoutes = [
   {
@@ -36,7 +37,8 @@ const appRoutes = [
     NavigationComponent,
     ContactComponent,
     MarksComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MarksGridComponent
   ],
   imports: [
     BrowserModule,

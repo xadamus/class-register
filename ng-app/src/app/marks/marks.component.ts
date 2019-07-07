@@ -9,6 +9,8 @@ import {ApiService} from '../shared/api.service';
 })
 export class MarksComponent implements OnInit {
   subjects: Subject[] = [];
+  selectedSubject: Subject = null;
+  marks: Mark[] = [];
 
   constructor(private apiService: ApiService) { }
 
@@ -17,7 +19,6 @@ export class MarksComponent implements OnInit {
   }
 
   public getAllSubjects() {
-    const url = 'http://localhost:8080/api/subjects/all';
     this.apiService.getAllSubjects().subscribe(
       res => {
         this.subjects = res;
@@ -27,4 +28,13 @@ export class MarksComponent implements OnInit {
     );
   }
 
+  selectSubject(subject: Subject) {
+    this.selectedSubject = subject;
+  }
+}
+
+export interface Mark {
+  id: string;
+  value: number;
+  subject: Subject;
 }

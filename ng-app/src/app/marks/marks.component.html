@@ -1,3 +1,23 @@
-<p>
-  marks works!
-</p>
+<div class="container">
+  <div class="row" style="margin-top: 28px;">
+    <div class="col-md-3">
+      <br>
+      <div class="list-group list-group-flush">
+        <a *ngFor="let subject of subjects" (click)="selectSubject(subject)" class="list-group-item list-group-item-action">
+          <i class="fa fa-book"></i>&nbsp;{{subject.name}}
+        </a>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 *ngIf="selectedSubject != null">{{selectedSubject.name}}</h3>
+          <app-marks-grid *ngIf="selectedSubject != null" [marks]="marks"></app-marks-grid>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+    </div>
+  </div>
+</div>
