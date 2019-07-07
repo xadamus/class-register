@@ -1,5 +1,6 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.Subject;
 
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ public class Mark {
     private Integer value;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Subject subject;
 
     private Date lastModifiedOn;
@@ -26,17 +28,9 @@ public class Mark {
         this.lastModifiedOn = new Date();
     }
 
-    public Mark(Integer value, Subject subject) {
+    public Mark(Integer value) {
         this();
         this.value = value;
-        this.subject = subject;
-    }
-
-    public Mark(String id, Integer value, Subject subject) {
-        this(value, subject);
-        if (id != null) {
-            this.id = UUID.fromString(id);
-        }
     }
 
     public UUID getId() {

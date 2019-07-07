@@ -1,6 +1,5 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.Mark;
 
 import javax.persistence.*;
@@ -14,11 +13,10 @@ public class Subject {
     private UUID id;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subject", cascade = CascadeType.ALL)
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
 
-    protected Subject() {
+    private Subject() {
         this.id = UUID.randomUUID();
         this.marks = new ArrayList<>();
     }
@@ -58,5 +56,15 @@ public class Subject {
 
     public void setMarks(List<Mark> marks) {
         this.marks = marks;
+    }
+
+    public void addMark(Mark mark) {
+        this.marks.add(mark);
+        mark.setSubject(this);
+    }
+
+    public void removeMark(Mark mark) {
+        this.marks.remove(mark);
+        mark.setSubject(null);
     }
 }

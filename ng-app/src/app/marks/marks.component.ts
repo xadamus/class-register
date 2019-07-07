@@ -30,6 +30,7 @@ export class MarksComponent implements OnInit {
 
   selectSubject(subject: Subject) {
     this.selectedSubject = subject;
+    this.marks = subject.marks;
   }
 }
 

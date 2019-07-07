@@ -10,6 +10,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MarksGridComponent} from './marks/marks-grid/marks-grid.component';
+import {GridModule} from '@syncfusion/ej2-angular-grids';
 
 const appRoutes = [
   {
@@ -44,7 +45,8 @@ const appRoutes = [
     BrowserModule,
     RouterModule.forRoot(appRoutes, { enableTracing: true }),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    GridModule
   ],
   providers: [],
   bootstrap: [AppComponent]
