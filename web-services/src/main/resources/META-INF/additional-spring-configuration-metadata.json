@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "class-register.db.create-entities",
+      "type": "java.lang.String",
+      "description": "Fires up the runner component that creates a test entities."
+  }
+] }

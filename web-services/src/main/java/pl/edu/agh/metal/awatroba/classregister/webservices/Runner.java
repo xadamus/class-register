@@ -2,18 +2,24 @@ package pl.edu.agh.metal.awatroba.classregister.webservices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import pl.edu.agh.metal.awatroba.classregister.webservices.db.SubjectRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.model.Subject;
 
 @Component
+@ConditionalOnProperty(name = "class-register.db.create-entities", havingValue = "true")
 public class Runner implements CommandLineRunner {
 
-    @Autowired
     private SubjectRepository subjectRepository;
 
+    @Autowired
+    public Runner(SubjectRepository subjectRepository) {
+        this.subjectRepository = subjectRepository;
+    }
+
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         Subject subject = new Subject("Informatyka");
         subjectRepository.save(subject);
         subject = new Subject("Religia");
