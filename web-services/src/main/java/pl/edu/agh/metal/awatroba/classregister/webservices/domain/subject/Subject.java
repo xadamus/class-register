@@ -1,6 +1,7 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.model;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.Mark;
 
 import javax.persistence.*;
 import java.util.ArrayList;

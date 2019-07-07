@@ -1,4 +1,6 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.model;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark;
+
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.Subject;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

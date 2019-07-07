@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.metal.awatroba.classregister.webservices.db.SubjectRepository;
-import pl.edu.agh.metal.awatroba.classregister.webservices.model.Subject;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.Subject;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.SubjectRepository;
 
 @Component
 @ConditionalOnProperty(name = "class-register.db.create-entities", havingValue = "true")

@@ -1,4 +1,4 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.api.viewmodel;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.contact.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;

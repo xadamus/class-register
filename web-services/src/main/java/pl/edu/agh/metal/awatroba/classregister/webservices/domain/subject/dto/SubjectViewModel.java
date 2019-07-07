@@ -1,4 +1,4 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.api.viewmodel;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.dto;
 
 import javax.validation.constraints.NotNull;
 
