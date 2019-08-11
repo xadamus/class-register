@@ -39,6 +39,15 @@ public class User extends DateAudit implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Authority> authorities = new ArrayList<>();
 
+    protected User() {
+    }
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public void addAuthority(Authority authority) {
         authorities.add(authority);
         authority.setUser(this);

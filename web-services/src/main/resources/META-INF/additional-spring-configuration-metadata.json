@@ -4,5 +4,15 @@
       "name": "class-register.db.create-entities",
       "type": "java.lang.String",
       "description": "Fires up the runner component that creates a test entities."
-  }
-] }
+    },
+    {
+      "name": "class-register.auth.jwtSecret",
+      "type": "java.lang.String",
+      "description": "Secret key for JWT Authorization."
+    },
+    {
+      "name": "class-register.auth.jwtExpirationInMs",
+      "type": "java.lang.String",
+      "description": "Token expiration time."
+    }
+  ] }
