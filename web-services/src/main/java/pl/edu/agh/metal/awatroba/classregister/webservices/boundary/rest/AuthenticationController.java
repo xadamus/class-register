@@ -1,7 +1,6 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -45,7 +44,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody UserLoginDto userLoginDto) {
+    public ResponseEntity<JwtAuthenticationDto> authenticateUser(@Valid @RequestBody UserLoginDto userLoginDto) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -61,10 +60,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody UserCreationDto userCreationDto) {
-        if(userRepository.existsByUsername(userCreationDto.getUsername())) {
-            return new ResponseEntity(new ApiResponseDto(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiResponseDto> registerUser(@Valid @RequestBody UserCreationDto userCreationDto) {
+        if (userRepository.existsByUsername(userCreationDto.getUsername())) {
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Username is already taken!"));
         }
 
         User user = new User(userCreationDto.getUsername(), userCreationDto.getEmail(), passwordEncoder.encode(userCreationDto.getPassword()));
