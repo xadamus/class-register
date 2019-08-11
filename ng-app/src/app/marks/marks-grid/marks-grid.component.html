@@ -1,5 +1,5 @@
 <p *ngIf="marks.length === 0">Brak ocen do wyświetlenia.</p>
-<ejs-grid [dataSource]="marks" *ngIf="marks.length !== 0">
+<ejs-grid [dataSource]="marks" gridLines="Both" *ngIf="marks.length !== 0">
   <e-columns>
     <e-column field="id" headerText="ID"></e-column>
     <e-column field="value" headerText="Wartość"></e-column>
