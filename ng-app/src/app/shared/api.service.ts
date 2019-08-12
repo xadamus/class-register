@@ -9,10 +9,21 @@ import {ContactViewModel} from '../contact/contact.component';
 })
 export class ApiService {
   private BASE_URL = 'http://localhost:8080/api';
+  private CURRENT_USER_URL = `${this.BASE_URL}/users/current`;
+  private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
+
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
   private CONTACT_URL = `${this.BASE_URL}/contact`;
 
   constructor(private http: HttpClient) {
+  }
+
+  authenticate(): string {
+    return this.AUTH_URL;
+  }
+
+  currentUser(): string {
+    return this.CURRENT_USER_URL;
   }
 
   getAllSubjects(): Observable<Subject[]> {

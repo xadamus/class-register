@@ -1,0 +1,76 @@
+import {EventEmitter, Injectable, Output} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {ApiService} from './api.service';
+import {Observable} from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  @Output() change: EventEmitter<any> = new EventEmitter();
+
+  private TOKEN_SESSION_KEY = 'access_token';
+  private TOKEN_TYPE_SESSION_KEY = 'token_type';
+  private USER_SESSION_KEY = 'user_data';
+
+  constructor(private http: HttpClient,
+              private api: ApiService) { }
+
+  public login(username: string, password: string) {
+    const tokenObservable = this.http.post<Token>(this.api.authenticate(), {username, password});
+    const newObservable = new Observable((observer) => {
+      tokenObservable.subscribe(response => {
+        localStorage.setItem(this.TOKEN_SESSION_KEY, response.accessToken);
+        localStorage.setItem(this.TOKEN_TYPE_SESSION_KEY, response.tokenType);
+        this.retrieveCurrentUser();
+        observer.next();
+      }, error => {
+        observer.error();
+      });
+    });
+    return newObservable;
+  }
+
+  public getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem(this.USER_SESSION_KEY));
+  }
+
+  public getToken() {
+    return localStorage.getItem(this.TOKEN_SESSION_KEY);
+  }
+
+  public getTokenType() {
+    return localStorage.getItem(this.TOKEN_TYPE_SESSION_KEY);
+  }
+
+  public logout() {
+    localStorage.removeItem(this.TOKEN_SESSION_KEY);
+    localStorage.removeItem(this.TOKEN_TYPE_SESSION_KEY);
+    localStorage.removeItem(this.USER_SESSION_KEY);
+    this.change.emit();
+  }
+
+  public authenticated() {
+    return localStorage.getItem(this.TOKEN_SESSION_KEY) != null;
+  }
+
+  private retrieveCurrentUser() {
+    this.http.get<User>(this.api.currentUser()).subscribe(response => {
+      localStorage.setItem(this.USER_SESSION_KEY, JSON.stringify(response));
+      this.change.emit();
+    }, error => {
+      localStorage.removeItem(this.USER_SESSION_KEY);
+      this.change.emit();
+    });
+  }
+}
+
+export class User {
+  username: string;
+  email: string;
+}
+
+export class Token {
+  accessToken: string;
+  tokenType: string;
+}

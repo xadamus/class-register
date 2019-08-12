@@ -7,12 +7,18 @@ import {ContactComponent} from './contact/contact.component';
 import {MarksComponent} from './marks/marks.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MarksGridComponent} from './marks/marks-grid/marks-grid.component';
 import {GridModule} from '@syncfusion/ej2-angular-grids';
+import {LoginComponent} from './login/login.component';
+import {AuthInterceptor} from './interceptors/auth-interceptor';
 
 const appRoutes = [
+  {
+    path: 'login',
+    component: LoginComponent
+  },
   {
     path: 'marks',
     component: MarksComponent
@@ -39,16 +45,20 @@ const appRoutes = [
     ContactComponent,
     MarksComponent,
     NotFoundComponent,
-    MarksGridComponent
+    MarksGridComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes, { enableTracing: true }),
+    RouterModule.forRoot(appRoutes, {enableTracing: true}),
     FormsModule,
     HttpClientModule,
-    GridModule
+    GridModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

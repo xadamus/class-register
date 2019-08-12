@@ -48,6 +48,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .cors()
+                    .and()
+                .csrf()
+                    .disable()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
@@ -58,8 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .requestMatchers(PROTECTED_URLS).authenticated()
                     .requestMatchers(PUBLIC_URLS).permitAll()
                     .and()
-                .csrf().disable()
-                .cors().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
                 .logout().disable();

@@ -23,7 +23,8 @@ export class MarksComponent implements OnInit {
       res => {
         this.subjects = res;
       }, err => {
-        alert('Wystąpił błąd');
+        console.log('brak przedmiotów');
+        console.log(err);
       }
     );
   }
