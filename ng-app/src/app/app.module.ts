@@ -7,7 +7,7 @@ import {ContactComponent} from './pages/contact/contact.component';
 import {MarksComponent} from './pages/marks/marks.component';
 import {NotFoundComponent} from './pages/not-found/not-found.component';
 import {RouterModule} from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MarksGridComponent} from './pages/marks/marks-grid/marks-grid.component';
 import {GridModule} from '@syncfusion/ej2-angular-grids';
@@ -15,6 +15,8 @@ import {LoginComponent} from './pages/login/login.component';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
 import {IndexComponent} from './components/index/index.component';
+import {AlertComponent} from './components/alert/alert.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 const appRoutes = [
   {
@@ -54,7 +56,8 @@ const appRoutes = [
     MarksGridComponent,
     LoginComponent,
     AdminDashboardComponent,
-    IndexComponent
+    IndexComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +65,7 @@ const appRoutes = [
     FormsModule,
     HttpClientModule,
     GridModule,
-    ReactiveFormsModule
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
