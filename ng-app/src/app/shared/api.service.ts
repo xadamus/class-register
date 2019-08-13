@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Subject} from '../marks/model/subject';
-import {ContactViewModel} from '../contact/contact.component';
+import {Subject} from '../pages/marks/model/subject';
+import {ContactViewModel} from '../pages/contact/contact.component';
 
 @Injectable({
   providedIn: 'root'

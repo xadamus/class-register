@@ -9,11 +9,11 @@
 
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item" *ngIf="auth.hasRole('ROLE_TEACHER')">
         <a class="nav-link" routerLink="/marks">Oceny</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/contact">Kontakt</a>
+      <li class="nav-item" *ngIf="authenticated">
+        <a class="nav-link" routerLink="/contact">Pomoc</a>
       </li>
     </ul>
   </div>

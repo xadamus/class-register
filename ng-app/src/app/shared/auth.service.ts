@@ -54,6 +54,10 @@ export class AuthService {
     return localStorage.getItem(this.TOKEN_SESSION_KEY) != null;
   }
 
+  public hasRole(role: string): boolean {
+    return this.authenticated() && this.getCurrentUser().roles.indexOf(role) > -1;
+  }
+
   private retrieveCurrentUser() {
     this.http.get<User>(this.api.currentUser()).subscribe(response => {
       localStorage.setItem(this.USER_SESSION_KEY, JSON.stringify(response));
@@ -68,6 +72,7 @@ export class AuthService {
 export class User {
   username: string;
   email: string;
+  roles: string[];
 }
 
 export class Token {

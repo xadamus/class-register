@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiService} from '../shared/api.service';
+import {ApiService} from '../../shared/api.service';
 
 @Component({
   selector: 'app-contact',

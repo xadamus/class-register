@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../shared/auth.service';
+import {AuthService} from '../../shared/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   login() {
     if (this.model.username && this.model.password) {
       this.authService.login(this.model.username, this.model.password).subscribe(() => {
-        this.router.navigate(['/marks']);
+        this.router.navigate(['']);
       }, error => {
         alert('błąd logowania');
       });
