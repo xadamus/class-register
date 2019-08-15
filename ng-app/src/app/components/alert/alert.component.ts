@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {AlertService} from '../../shared/alert.service';
+import {AlertService} from '../../services/alert.service';
 import {timer} from 'rxjs';
 
 @Component({

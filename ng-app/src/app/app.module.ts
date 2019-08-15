@@ -13,10 +13,13 @@ import {MarksGridComponent} from './pages/marks/marks-grid/marks-grid.component'
 import {GridModule} from '@syncfusion/ej2-angular-grids';
 import {LoginComponent} from './pages/login/login.component';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
-import {AdminDashboardComponent} from './pages/admin-dashboard/admin-dashboard.component';
+import {AdminPanelComponent} from './pages/admin-panel/admin-panel.component';
 import {IndexComponent} from './components/index/index.component';
 import {AlertComponent} from './components/alert/alert.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {UserManagementComponent} from './pages/admin-panel/pages/user-management/user-management.component';
+import {ConfigurationComponent} from './pages/admin-panel/pages/configuration/configuration.component';
+import {AdminDashboardComponent} from './pages/admin-panel/pages/admin-dashboard/admin-dashboard.component';
 
 const appRoutes = [
   {
@@ -25,7 +28,21 @@ const appRoutes = [
   },
   {
     path: 'admin',
-    component: AdminDashboardComponent
+    component: AdminPanelComponent,
+    children: [
+      {
+        path: '',
+        component: AdminDashboardComponent
+      },
+      {
+        path: 'users',
+        component: UserManagementComponent
+      },
+      {
+        path: 'configuration',
+        component: ConfigurationComponent
+      }
+    ]
   },
   {
     path: 'marks',
@@ -55,9 +72,12 @@ const appRoutes = [
     NotFoundComponent,
     MarksGridComponent,
     LoginComponent,
-    AdminDashboardComponent,
+    AdminPanelComponent,
     IndexComponent,
-    AlertComponent
+    AlertComponent,
+    UserManagementComponent,
+    ConfigurationComponent,
+    AdminDashboardComponent
   ],
   imports: [
     BrowserModule,

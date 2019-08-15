@@ -9,7 +9,10 @@ import {ContactViewModel} from '../pages/contact/contact.component';
 })
 export class ApiService {
   private BASE_URL = 'http://localhost:8080/api';
-  private CURRENT_USER_URL = `${this.BASE_URL}/users/current`;
+
+  private USERS_URL = `${this.BASE_URL}/users`;
+  private CURRENT_USER_URL = `${this.USERS_URL}/current`;
+
   private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
 
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
@@ -24,6 +27,10 @@ export class ApiService {
 
   currentUser(): string {
     return this.CURRENT_USER_URL;
+  }
+
+  users(): string {
+    return this.USERS_URL;
   }
 
   getAllSubjects(): Observable<Subject[]> {

@@ -2,11 +2,11 @@
   <div class="row" style="margin-top: 28px;">
     <div class="col-md-3">
       <div class="list-group list-group-flush">
-        <i>Klasa: Ia</i>
-        <i>półrocze 1 (2018/2019)</i>
+        <em>Klasa: Ia</em>
+        <em>półrocze 1 (2018/2019)</em>
         <button type="button" class="btn btn-sm btn-warning">Zmień</button>
         <a *ngFor="let subject of subjects" (click)="selectSubject(subject)" class="list-group-item list-group-item-action">
-          <i class="fa fa-book"></i>&nbsp;{{subject.name}}
+          <i class="fa fa-book" aria-hidden="true"></i>&nbsp;{{subject.name}}
         </a>
       </div>
     </div>
