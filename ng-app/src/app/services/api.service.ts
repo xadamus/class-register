@@ -33,6 +33,10 @@ export class ApiService {
     return this.USERS_URL;
   }
 
+  user(userId): string {
+    return this.USERS_URL + '/' + userId;
+  }
+
   getAllSubjects(): Observable<Subject[]> {
     return this.http.get<Subject[]>(this.ALL_SUBJECTS_URL);
   }
@@ -40,4 +44,9 @@ export class ApiService {
   sendMessage(message: ContactViewModel): Observable<any> {
     return this.http.post(this.CONTACT_URL, message);
   }
+}
+
+export class ApiResponseDto {
+  success: boolean;
+  message: string;
 }

@@ -8,12 +8,14 @@ import java.util.stream.Collectors;
 
 public class UserPreviewDto {
 
+    private Long id;
     private String username;
     private String email;
     private List<String> roles;
 
     public static UserPreviewDto of(User user) {
         UserPreviewDto userPreviewDto = new UserPreviewDto();
+        userPreviewDto.id = user.getId();
         userPreviewDto.username = user.getUsername();
         userPreviewDto.email = user.getEmail();
         userPreviewDto.roles = user.getAuthorities()
@@ -21,6 +23,14 @@ public class UserPreviewDto {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         return userPreviewDto;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

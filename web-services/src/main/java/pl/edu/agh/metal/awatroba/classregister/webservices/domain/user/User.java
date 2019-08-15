@@ -20,17 +20,15 @@ public class User extends DateAudit implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     @NotBlank
     @Size(max = 15)
+    @NaturalId
     private String username;
 
     @NotBlank
     @Size(max = 100)
     private String password;
 
-    @Column(unique = true)
-    @NaturalId
     @NotBlank
     @Size(max = 40)
     @Email

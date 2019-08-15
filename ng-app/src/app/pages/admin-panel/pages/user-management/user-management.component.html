@@ -1,8 +1,9 @@
 <h3 class="mt-4">Użytkownicy</h3>
-<p *ngIf="users.length === 0">Brak ocen do wyświetlenia.</p>
-<ejs-grid [dataSource]="users" gridLines="Both" *ngIf="users.length !== 0">
+<ejs-grid #grid [dataSource]="users" [editSettings]='editSettings' [toolbar]='toolbar'
+          (toolbarClick)='clickHandler($event)' (actionComplete)='actionComplete($event)'
+          (actionBegin)='actionBegin($event)' gridLines="Both">
   <e-columns>
-    <e-column field="username" headerText="Nazwa"></e-column>
+    <e-column field="username" headerText="Nazwa" width="150" isPrimaryKey="true"></e-column>
     <e-column field="email" headerText="Email"></e-column>
     <e-column field="roles" headerText="Role"></e-column>
   </e-columns>

@@ -10,7 +10,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MarksGridComponent} from './pages/marks/marks-grid/marks-grid.component';
-import {GridModule} from '@syncfusion/ej2-angular-grids';
+import {EditService, GridModule, SortService, ToolbarService} from '@syncfusion/ej2-angular-grids';
 import {LoginComponent} from './pages/login/login.component';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {AdminPanelComponent} from './pages/admin-panel/admin-panel.component';
@@ -88,7 +88,8 @@ const appRoutes = [
     BrowserAnimationsModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    EditService, ToolbarService, SortService
   ],
   bootstrap: [AppComponent]
 })

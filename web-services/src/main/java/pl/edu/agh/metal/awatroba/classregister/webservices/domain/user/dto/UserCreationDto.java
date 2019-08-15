@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 
 public class UserCreationDto {
 
+    private Long id;
+
     @NotBlank
     @Size(min = 3, max = 30)
     private String username;
@@ -18,6 +20,14 @@ public class UserCreationDto {
     @NotBlank
     @Size(min = 6, max = 100)
     private String password;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
