@@ -3,6 +3,7 @@ package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class UserCreationDto {
 
@@ -20,6 +21,8 @@ public class UserCreationDto {
     @NotBlank
     @Size(min = 6, max = 100)
     private String password;
+
+    private List<String> roles;
 
     public Long getId() {
         return id;
@@ -53,4 +56,11 @@ public class UserCreationDto {
         this.password = password;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 }

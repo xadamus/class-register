@@ -1,5 +1,6 @@
 
-  <div #alert [@openClose]="visible ? 'open' : 'closed'" class="alert alert-{{type}} alert-dismissible fade show mt-5 e-center w-50 ml-auto mr-auto fixed-top" role="alert" style="opacity: 0.8">
+  <div #alert [@openClose]="visible ? 'open' : 'closed'" class="alert alert-{{type}} alert-dismissible fade show mt-5 e-center w-50 ml-auto mr-auto fixed-top"
+       role="alert" style="z-index: 9999; opacity: 0.8">
     <button type="button" class="close" aria-label="Close" (click)="close()">
       <span aria-hidden="true">&times;</span>
     </button>

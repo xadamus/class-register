@@ -4,6 +4,7 @@ import {UsersService} from '../../../../services/users.service';
 import {EditSettingsModel, GridComponent, SaveEventArgs, ToolbarItems} from '@syncfusion/ej2-angular-grids';
 import {ClickEventArgs} from '@syncfusion/ej2-navigations';
 import {AlertService} from '../../../../services/alert.service';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-user-management',
@@ -15,8 +16,15 @@ export class UserManagementComponent implements OnInit {
   editSettings: EditSettingsModel;
   toolbar: ToolbarItems[] | object;
 
+  modalRef: BsModalRef;
+  editedUser: User;
+  editing: boolean;
+
   @ViewChild('grid')
   public grid: GridComponent;
+
+  @ViewChild('template')
+  public template;
 
   private responseHandler = {
     next: response => {
@@ -34,32 +42,55 @@ export class UserManagementComponent implements OnInit {
   };
 
   constructor(private usersService: UsersService,
-              private alert: AlertService) {
+              private alert: AlertService,
+              private modalService: BsModalService) {
   }
 
   ngOnInit() {
     this.loadUsers();
-    this.editSettings = {showDeleteConfirmDialog: true, allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog'};
-    this.toolbar = ['Add', 'Edit', 'Delete',
-      {text: 'Zaloguj jako', tooltipText: 'Zaloguj się do systemu jako wybrany użytkownik.', prefixIcon: 'fa fa-user', id: 'loginAs'}];
+    this.editSettings = {allowDeleting: true, showDeleteConfirmDialog: true};
+    this.toolbar = [
+      {text: 'Dodaj', prefixIcon: 'e-add', id: 'add'},
+      {text: 'Edytuj', prefixIcon: 'e-edit', id: 'edit'},
+      'Delete'
+    ];
   }
 
   clickHandler(args: ClickEventArgs): void {
-    if (args.item.id === 'loginAs') {
-      this.alert.info('Logowanie jako wybrany użytkownik powiodło się.');
+    if (args.item.id === 'add') {
+      this.editUser(new User());
+    } else if (args.item.id === 'edit') {
+      const selectedRecords = this.grid.getSelectedRecords();
+      if (selectedRecords.length > 0) {
+        this.editUser(selectedRecords[0] as User);
+      } else {
+        this.alert.error('Nie zaznaczono żadnego użytkownika.');
+      }
     }
   }
 
-  actionBegin(args: SaveEventArgs) {
-    console.log(args);
+  actionComplete(args: SaveEventArgs): void {
+    if (args.requestType === 'delete') {
+      this.usersService.delete(args.data[0]).subscribe(this.responseHandler);
+    }
   }
 
-  actionComplete(args: SaveEventArgs): void {
-    console.log(args);
-    if (args.requestType === 'save') {
-      this.usersService.save(args.data).subscribe(this.responseHandler);
-    } else if (args.requestType === 'delete') {
-      this.usersService.delete(args.data[0]).subscribe(this.responseHandler);
+  editUser(user: User) {
+    this.modalRef = this.modalService.show(this.template);
+    this.editedUser = user;
+    this.editing = user.id != null;
+  }
+
+  saveUser(user: User) {
+    this.usersService.save(user).subscribe(this.responseHandler);
+    this.modalRef.hide();
+  }
+
+  updateRole(role: string, event) {
+    if (event.target.checked) {
+      this.editedUser.roles.push(role);
+    } else {
+      this.editedUser.roles.splice(this.editedUser.roles.indexOf(role), 1);
     }
   }
 
@@ -68,5 +99,4 @@ export class UserManagementComponent implements OnInit {
       this.users = users;
     });
   }
-
 }

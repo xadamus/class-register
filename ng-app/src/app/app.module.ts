@@ -10,7 +10,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {MarksGridComponent} from './pages/marks/marks-grid/marks-grid.component';
-import {EditService, GridModule, SortService, ToolbarService} from '@syncfusion/ej2-angular-grids';
+import {CommandColumnService, EditService, GridModule, SortService, ToolbarService} from '@syncfusion/ej2-angular-grids';
 import {LoginComponent} from './pages/login/login.component';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
 import {AdminPanelComponent} from './pages/admin-panel/admin-panel.component';
@@ -20,6 +20,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {UserManagementComponent} from './pages/admin-panel/pages/user-management/user-management.component';
 import {ConfigurationComponent} from './pages/admin-panel/pages/configuration/configuration.component';
 import {AdminDashboardComponent} from './pages/admin-panel/pages/admin-dashboard/admin-dashboard.component';
+import {ModalModule} from 'ngx-bootstrap/modal';
 
 const appRoutes = [
   {
@@ -85,11 +86,12 @@ const appRoutes = [
     FormsModule,
     HttpClientModule,
     GridModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ModalModule.forRoot()
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    EditService, ToolbarService, SortService
+    EditService, ToolbarService, SortService, CommandColumnService
   ],
   bootstrap: [AppComponent]
 })

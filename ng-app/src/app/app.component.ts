@@ -14,7 +14,8 @@ L10n.load({
       EditFormTitle: 'Edycja ',
       SaveButton: 'Zapisz',
       CancelButton: 'Anuluj',
-      ConfirmDelete: 'Czy na pewno chcesz usunąć?'
+      ConfirmDelete: 'Czy na pewno chcesz usunąć?',
+      DeleteOperationAlert: 'Nie zaznaczono żadnego rekordu'
     }
   }
 });

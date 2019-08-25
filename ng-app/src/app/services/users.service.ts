@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class UsersService {
+  roles = ['ROLE_ADMIN', 'ROLE_TEACHER', 'ROLE_PARENT', 'ROLE_STUDENT'];
 
   constructor(private api: ApiService,
               private http: HttpClient) { }
@@ -18,7 +19,9 @@ export class UsersService {
   save(userData) {
     const userCreationDto = new UserCreationDto();
     userCreationDto.username = userData.username;
+    userCreationDto.password = userData.password;
     userCreationDto.email = userData.email;
+    userCreationDto.roles = userData.roles;
     if (userData.id != null) {
       return this.http.put<ApiResponseDto>(this.api.user(userData.id), userCreationDto);
     } else {
@@ -33,6 +36,7 @@ export class UsersService {
 
 export class UserCreationDto {
   username: string;
-  password = 'testing';
+  password: string;
   email: string;
+  roles: string[];
 }

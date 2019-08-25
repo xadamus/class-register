@@ -51,7 +51,7 @@ public class UserController {
         }
 
         User user = new User(userCreationDto.getUsername(), userCreationDto.getEmail(), passwordEncoder.encode(userCreationDto.getPassword()));
-        user.addAuthority(new Authority(Role.ROLE_STUDENT));
+        userCreationDto.getRoles().forEach(r -> user.addAuthority(new Authority(Role.valueOf(r))));
 
         User result = userRepository.save(user);
         URI location = ServletUriComponentsBuilder
@@ -67,8 +67,15 @@ public class UserController {
         return userRepository.findById(id)
                 .map(user -> {
                     user.setUsername(userCreationDto.getUsername());
-                    user.setPassword(userCreationDto.getPassword());
+                    if (userCreationDto.getPassword() != null && !userCreationDto.getPassword().isEmpty())
+                        user.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
                     user.setEmail(userCreationDto.getEmail());
+                    user.getAuthorities().removeIf(a -> !userCreationDto.getRoles().contains(a.getAuthority()));
+                    userCreationDto.getRoles().forEach(r -> {
+                        if (user.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals(r))) {
+                            user.addAuthority(new Authority(Role.valueOf(r)));
+                        }
+                    });
                     userRepository.save(user);
                     return ResponseEntity.ok().body(new ApiResponseDto(true, "Zaktualizowano dane użytkownika."));
                 }).orElseGet(() -> createUser(userCreationDto));
