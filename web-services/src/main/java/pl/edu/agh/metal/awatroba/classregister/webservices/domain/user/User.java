@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.Student;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -36,6 +37,14 @@ public class User extends DateAudit implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Authority> authorities = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+
+    @OneToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
 
     protected User() {
     }
@@ -121,5 +130,21 @@ public class User extends DateAudit implements UserDetails {
 
     public void setAuthorities(Collection<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
