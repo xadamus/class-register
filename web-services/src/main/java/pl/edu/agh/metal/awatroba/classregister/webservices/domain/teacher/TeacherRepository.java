@@ -1,4 +1,4 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher;
 
 import java.util.Collection;
 import java.util.Optional;

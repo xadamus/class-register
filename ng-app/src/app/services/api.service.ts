@@ -14,6 +14,7 @@ export class ApiService {
   private CURRENT_USER_URL = `${this.USERS_URL}/current`;
 
   private STUDENTS_URL = `${this.BASE_URL}/students`;
+  private TEACHERS_URL = `${this.BASE_URL}/teachers`;
 
   private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
 
@@ -49,6 +50,14 @@ export class ApiService {
 
   student(studentId): string {
     return this.STUDENTS_URL + '/' + studentId;
+  }
+
+  teachers(): string {
+    return this.TEACHERS_URL;
+  }
+
+  teacher(teacherId): string {
+    return this.TEACHERS_URL + '/' + teacherId;
   }
 
   getAllSubjects(): Observable<Subject[]> {

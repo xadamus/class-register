@@ -1,19 +1,9 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user;
+package pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
-
-@Entity
-public class Teacher implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TeacherCreationDto {
     private Long id;
-
-    @OneToOne(mappedBy = "teacher")
-    private User user;
-
+    private Long userId;
     private String firstName;
-
     private String lastName;
 
     public Long getId() {
@@ -24,12 +14,12 @@ public class Teacher implements Serializable {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -47,5 +37,4 @@ public class Teacher implements Serializable {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 }

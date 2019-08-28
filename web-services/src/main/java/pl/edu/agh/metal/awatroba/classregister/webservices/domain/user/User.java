@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.Student;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.Teacher;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
