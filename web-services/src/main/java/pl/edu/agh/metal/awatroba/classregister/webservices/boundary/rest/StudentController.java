@@ -47,26 +47,27 @@ public class StudentController {
                 .fromCurrentContextPath().path("/api/students/{id}")
                 .buildAndExpand(student.getId()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponseDto(true, "Utworzono studenta " + student.getFirstName() + " " + student.getLastName()));
+        return ResponseEntity.created(location).body(new ApiResponseDto(true, "Utworzono ucznia " + student.getFirstName() + " " + student.getLastName()));
     }
 
     @PutMapping("/{studentId}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponseDto> updateStudent(@RequestBody StudentCreationDto studentCreationDto, @PathVariable Long studentId) {
+        studentCreationDto.setId(studentId);
         StudentPreviewDto studentPreviewDto = studentService.updateStudent(studentCreationDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/students/{id}")
                 .buildAndExpand(studentPreviewDto.getId()).toUri();
-        return ResponseEntity.created(location).body(new ApiResponseDto(true, "Zaktualizowano studenta " + studentPreviewDto.getFullName()));
+        return ResponseEntity.created(location).body(new ApiResponseDto(true, "Zaktualizowano ucznia " + studentPreviewDto.getFullName()));
     }
 
     @DeleteMapping("/{studentId}")
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponseDto> deleteStudent(@PathVariable Long studentId) {
         if (studentService.deleteStudent(studentId)) {
-            return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto studenta."));
+            return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto ucznia."));
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Brak studenta o podanym id."));
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Brak ucznia o podanym id."));
         }
     }
 

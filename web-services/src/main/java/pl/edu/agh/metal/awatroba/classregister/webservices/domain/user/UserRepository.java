@@ -1,5 +1,7 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user;
 
+import org.springframework.data.jpa.repository.Query;
+
 import java.util.Collection;
 import java.util.Optional;
 
@@ -8,6 +10,9 @@ public interface UserRepository {
     User save(User user);
 
     Collection<User> findAll();
+
+    @Query("select u from User u where u.student is null and u.teacher is null")
+    Collection<User> findAllFree();
 
     Optional<User> findById(Long id);
 

@@ -3,6 +3,7 @@ package pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.dto;
 public class StudentPreviewDto {
     private Long id;
     private String username;
+    private String userId;
     private String firstName;
     private String lastName;
 
@@ -24,6 +25,14 @@ public class StudentPreviewDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {

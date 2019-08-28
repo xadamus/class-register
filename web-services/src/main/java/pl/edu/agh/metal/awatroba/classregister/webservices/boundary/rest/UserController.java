@@ -86,6 +86,14 @@ public class UserController {
     public ResponseEntity<ApiResponseDto> deleteUser(@PathVariable Long id) {
         return userRepository.findById(id)
                 .map(user -> {
+                    if (user.getStudent() != null) {
+                        user.getStudent().setUser(null);
+                        user.setStudent(null);
+                    }
+                    if (user.getTeacher() != null) {
+                        user.getTeacher().setUser(null);
+                        user.setTeacher(null);
+                    }
                     userRepository.deleteById(id);
                     return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto użytkownika."));
                 })
@@ -102,5 +110,12 @@ public class UserController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found."));
         return ResponseEntity.ok(UserPreviewDto.of(user));
+    }
+
+    @GetMapping("/free")
+    @Secured("ROLE_ADMIN")
+    public ResponseEntity<Collection<UserPreviewDto>> getFreeUsers() {
+        List<UserPreviewDto> userPreviewDtos = userRepository.findAllFree().stream().map(UserPreviewDto::of).collect(Collectors.toList());
+        return ResponseEntity.ok(userPreviewDtos);
     }
 }

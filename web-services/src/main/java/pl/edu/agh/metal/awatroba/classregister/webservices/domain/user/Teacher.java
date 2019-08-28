@@ -1,10 +1,10 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Teacher {
-
+public class Teacher implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

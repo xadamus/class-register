@@ -13,6 +13,8 @@ export class ApiService {
   private USERS_URL = `${this.BASE_URL}/users`;
   private CURRENT_USER_URL = `${this.USERS_URL}/current`;
 
+  private STUDENTS_URL = `${this.BASE_URL}/students`;
+
   private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
 
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
@@ -33,8 +35,20 @@ export class ApiService {
     return this.USERS_URL;
   }
 
+  freeUsers(): string {
+    return this.USERS_URL + '/free';
+  }
+
   user(userId): string {
     return this.USERS_URL + '/' + userId;
+  }
+
+  students(): string {
+    return this.STUDENTS_URL;
+  }
+
+  student(studentId): string {
+    return this.STUDENTS_URL + '/' + studentId;
   }
 
   getAllSubjects(): Observable<Subject[]> {

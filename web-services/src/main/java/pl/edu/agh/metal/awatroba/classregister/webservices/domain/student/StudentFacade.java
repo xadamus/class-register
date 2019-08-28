@@ -25,6 +25,7 @@ public class StudentFacade implements StudentService {
         this.studentRepository = studentRepository;
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
+        defineMappings();
     }
 
     @Override
@@ -40,7 +41,7 @@ public class StudentFacade implements StudentService {
     @Override
     public StudentPreviewDto saveStudent(StudentCreationDto studentCreationDto) {
         Student student = modelMapper.map(studentCreationDto, Student.class);
-        userRepository.findById(studentCreationDto.getUserId()).ifPresent(student::setUser);
+        mapUser(studentCreationDto, student);
         return modelMapper.map(studentRepository.save(student), StudentPreviewDto.class);
     }
 
@@ -49,7 +50,7 @@ public class StudentFacade implements StudentService {
         return studentRepository.findById(studentCreationDto.getId()).map(student -> {
             student.setFirstName(studentCreationDto.getFirstName());
             student.setLastName(studentCreationDto.getLastName());
-            userRepository.findById(studentCreationDto.getUserId()).ifPresent(user -> student.setUser(user));
+            mapUser(studentCreationDto, student);
             return modelMapper.map(studentRepository.save(student), StudentPreviewDto.class);
         }).orElseGet(() -> saveStudent(studentCreationDto));
     }
@@ -57,8 +58,32 @@ public class StudentFacade implements StudentService {
     @Override
     public boolean deleteStudent(Long studentId) {
         return studentRepository.findById(studentId).map(student -> {
+            if (student.getUser() != null) {
+                student.getUser().setStudent(null);
+                student.setUser(null);
+            }
             studentRepository.deleteById(studentId);
             return true;
         }).orElse(false);
+    }
+
+    private void defineMappings() {
+        this.modelMapper
+                .createTypeMap(Student.class, StudentPreviewDto.class)
+                .addMapping(student -> student.getUser().getUsername(), StudentPreviewDto::setUsername)
+                .addMapping(student -> student.getUser().getId(), StudentPreviewDto::setUserId);
+    }
+
+    private void mapUser(StudentCreationDto studentCreationDto, Student student) {
+        if (studentCreationDto.getUserId() != null)
+            userRepository.findById(studentCreationDto.getUserId()).ifPresent(user -> {
+                student.setUser(user);
+                user.setStudent(student);
+            });
+        else {
+            if (student.getUser() != null)
+                student.getUser().setStudent(null);
+            student.setUser(null);
+        }
     }
 }

@@ -16,6 +16,10 @@ export class UsersService {
     return this.http.get<User[]>(this.api.users());
   }
 
+  getFreeUsers() {
+    return this.http.get<User[]>(this.api.freeUsers());
+  }
+
   save(userData) {
     const userCreationDto = new UserCreationDto();
     userCreationDto.username = userData.username;
