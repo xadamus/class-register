@@ -23,6 +23,7 @@ import {AdminDashboardComponent} from './pages/admin-panel/pages/admin-dashboard
 import {ModalModule} from 'ngx-bootstrap/modal';
 import {StudentManagementComponent} from './pages/admin-panel/pages/student-management/student-management.component';
 import {TeacherManagementComponent} from './pages/admin-panel/pages/teacher-management/teacher-management.component';
+import {SemesterComponent} from './pages/admin-panel/pages/semester/semester.component';
 
 const appRoutes = [
   {
@@ -48,6 +49,10 @@ const appRoutes = [
       {
         path: 'teachers',
         component: TeacherManagementComponent
+      },
+      {
+        path: 'semesters',
+        component: SemesterComponent
       }
     ]
   },
@@ -86,7 +91,8 @@ const appRoutes = [
     ConfigurationComponent,
     AdminDashboardComponent,
     StudentManagementComponent,
-    TeacherManagementComponent
+    TeacherManagementComponent,
+    SemesterComponent
   ],
   imports: [
     BrowserModule,

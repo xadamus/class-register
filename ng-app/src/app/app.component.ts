@@ -5,6 +5,8 @@ setCulture('pl-PL');
 L10n.load({
   'pl-PL': {
     grid: {
+      True: 'TAK',
+      False: 'NIE',
       EmptyRecord: 'Brak rekordów do wyświetlenia',
       Add: 'Dodaj',
       Edit: 'Edytuj',

@@ -16,6 +16,8 @@ export class ApiService {
   private STUDENTS_URL = `${this.BASE_URL}/students`;
   private TEACHERS_URL = `${this.BASE_URL}/teachers`;
 
+  private SEMESTERS_URL = `${this.BASE_URL}/semesters`;
+
   private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
 
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
@@ -58,6 +60,18 @@ export class ApiService {
 
   teacher(teacherId): string {
     return this.TEACHERS_URL + '/' + teacherId;
+  }
+
+  semesters(): string {
+    return this.SEMESTERS_URL;
+  }
+
+  semesterCurrentState(semesterId: number): string {
+    return this.SEMESTERS_URL + '/' + semesterId +  '/current';
+  }
+
+  currentSemester(): string {
+    return this.SEMESTERS_URL + '/current';
   }
 
   getAllSubjects(): Observable<Subject[]> {

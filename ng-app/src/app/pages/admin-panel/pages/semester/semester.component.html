@@ -1,0 +1,10 @@
+<h3 class="mt-4">Semestry</h3>
+<ejs-grid #grid [dataSource]="semesters" [editSettings]='editSettings' [toolbar]='toolbar'
+          (toolbarClick)='clickHandler($event)'
+          gridLines="Both">
+  <e-columns>
+    <e-column field="year" headerText="Rok"></e-column>
+    <e-column field="period" headerText="Okres"></e-column>
+    <e-column field="current" headerText="Aktualny"></e-column>
+  </e-columns>
+</ejs-grid>
