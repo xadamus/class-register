@@ -5,19 +5,19 @@ import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.Mark;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class Subject {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
 
     private Subject() {
-        this.id = UUID.randomUUID();
         this.marks = new ArrayList<>();
     }
 
@@ -26,19 +26,11 @@ public class Subject {
         this.name = name;
     }
 
-    public Subject(String id, String name) {
-        this();
-        if (id != null) {
-            this.id = UUID.fromString(id);
-        }
-        this.name = name;
-    }
-
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -10,15 +10,17 @@ import {ContactViewModel} from '../pages/contact/contact.component';
 export class ApiService {
   private BASE_URL = 'http://localhost:8080/api';
 
+  private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
   private USERS_URL = `${this.BASE_URL}/users`;
-  private CURRENT_USER_URL = `${this.USERS_URL}/current`;
 
+  private CURRENT_USER_URL = `${this.USERS_URL}/current`;
   private STUDENTS_URL = `${this.BASE_URL}/students`;
+
   private TEACHERS_URL = `${this.BASE_URL}/teachers`;
 
   private SEMESTERS_URL = `${this.BASE_URL}/semesters`;
 
-  private AUTH_URL = `${this.BASE_URL}/public/auth/authenticate`;
+  private SUBJECTS_URL = `${this.BASE_URL}/subjects`;
 
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
   private CONTACT_URL = `${this.BASE_URL}/contact`;
@@ -72,6 +74,14 @@ export class ApiService {
 
   currentSemester(): string {
     return this.SEMESTERS_URL + '/current';
+  }
+
+  subjects() {
+    return this.SUBJECTS_URL;
+  }
+
+  subject(subjectId: number) {
+    return this.SUBJECTS_URL + '/' + subjectId;
   }
 
   getAllSubjects(): Observable<Subject[]> {

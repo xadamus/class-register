@@ -2,7 +2,7 @@ package pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class SubjectViewModel {
+public class SubjectPreviewDto {
     private String id;
 
     @NotNull
