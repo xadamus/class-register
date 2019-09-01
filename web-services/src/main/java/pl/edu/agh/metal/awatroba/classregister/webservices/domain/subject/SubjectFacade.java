@@ -34,7 +34,7 @@ public class SubjectFacade implements SubjectService {
     }
 
     @Override
-    public SubjectPreviewDto saveSubject(SubjectCreationDto subjectCreationDto) {
+    public SubjectPreviewDto createSubject(SubjectCreationDto subjectCreationDto) {
         Subject subject = modelMapper.map(subjectCreationDto, Subject.class);
         subject.setId(null);
         return modelMapper.map(subjectRepository.save(subject), SubjectPreviewDto.class);
@@ -46,7 +46,7 @@ public class SubjectFacade implements SubjectService {
             subject.setName(subjectCreationDto.getName());
             subjectRepository.save(subject);
             return modelMapper.map(subject, SubjectPreviewDto.class);
-        }).orElseGet(() -> saveSubject(subjectCreationDto));
+        }).orElseGet(() -> createSubject(subjectCreationDto));
     }
 
     @Override

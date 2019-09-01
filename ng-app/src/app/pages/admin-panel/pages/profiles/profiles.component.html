@@ -1,0 +1,42 @@
+<h3 class="mt-4">Klasy</h3>
+<ejs-grid #grid [dataSource]="profiles" [editSettings]='editSettings' [toolbar]='toolbar'
+          (toolbarClick)='clickHandler($event)' (actionComplete)='actionComplete($event)'
+          gridLines="Both">
+  <e-columns>
+    <e-column field="name" headerText="Nazwa klasy"></e-column>
+    <e-column field="level" headerText="Poziom"></e-column>
+  </e-columns>
+</ejs-grid>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" *ngIf="!editing">Tworzenie klasy</h4>
+    <h4 class="modal-title pull-left" *ngIf="editing">Edycja klasy {{editedProfile.name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form name="form" #f="ngForm" novalidate class="contact-form">
+      <div class="form-group">
+        <label for="firstName">Nazwa klasy</label>
+        <input type="text"
+               id="firstName"
+               class="form-control"
+               name="firstName"
+               [(ngModel)]="editedProfile.name"
+               #name="ngModel" />
+      </div>
+      <div class="form-group">
+        <label for="level">Poziom</label>
+        <select [(ngModel)]="editedProfile.level" id="level" name="level" class="form-control">
+          <option *ngFor="let level of levels" [ngValue]="level">{{level}}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" aria-label="Close" (click)="modalRef.hide()">Zamknij</button>
+    <button type="submit" class="btn btn-primary" (click)="f.form.valid && saveProfile(editedProfile)">Zapisz</button>
+  </div>
+</ng-template>

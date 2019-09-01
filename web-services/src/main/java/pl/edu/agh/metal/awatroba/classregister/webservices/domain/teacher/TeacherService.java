@@ -12,7 +12,7 @@ public interface TeacherService {
 
     Collection<TeacherPreviewDto> getTeachers();
 
-    TeacherPreviewDto saveTeacher(TeacherCreationDto teacherCreationDto);
+    TeacherPreviewDto createTeacher(TeacherCreationDto teacherCreationDto);
 
     TeacherPreviewDto updateTeacher(TeacherCreationDto teacherCreationDto);
 

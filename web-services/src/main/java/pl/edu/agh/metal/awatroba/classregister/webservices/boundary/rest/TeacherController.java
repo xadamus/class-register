@@ -41,7 +41,7 @@ public class TeacherController {
     @PostMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponseDto> createTeacher(@RequestBody TeacherCreationDto teacherCreationDto) {
-        TeacherPreviewDto teacher = teacherService.saveTeacher(teacherCreationDto);
+        TeacherPreviewDto teacher = teacherService.createTeacher(teacherCreationDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/teachers/{id}")

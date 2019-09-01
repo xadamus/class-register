@@ -25,6 +25,7 @@ import {StudentManagementComponent} from './pages/admin-panel/pages/student-mana
 import {TeacherManagementComponent} from './pages/admin-panel/pages/teacher-management/teacher-management.component';
 import {SemesterComponent} from './pages/admin-panel/pages/semester/semester.component';
 import {SubjectsComponent} from './pages/admin-panel/pages/subjects/subjects.component';
+import {ProfilesComponent} from './pages/admin-panel/pages/profiles/profiles.component';
 
 const appRoutes = [
   {
@@ -58,6 +59,10 @@ const appRoutes = [
       {
         path: 'subjects',
         component: SubjectsComponent
+      },
+      {
+        path: 'profiles',
+        component: ProfilesComponent
       }
     ]
   },
@@ -98,7 +103,8 @@ const appRoutes = [
     StudentManagementComponent,
     TeacherManagementComponent,
     SemesterComponent,
-    SubjectsComponent
+    SubjectsComponent,
+    ProfilesComponent
   ],
   imports: [
     BrowserModule,

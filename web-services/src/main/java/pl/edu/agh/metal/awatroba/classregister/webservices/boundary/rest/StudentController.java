@@ -41,7 +41,7 @@ public class StudentController {
     @PostMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponseDto> createStudent(@RequestBody StudentCreationDto studentCreationDto) {
-        StudentPreviewDto student = studentService.saveStudent(studentCreationDto);
+        StudentPreviewDto student = studentService.createStudent(studentCreationDto);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/students/{id}")

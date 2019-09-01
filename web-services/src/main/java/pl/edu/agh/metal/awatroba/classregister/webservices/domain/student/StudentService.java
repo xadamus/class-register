@@ -12,7 +12,7 @@ public interface StudentService {
 
     Collection<StudentPreviewDto> getStudents();
 
-    StudentPreviewDto saveStudent(StudentCreationDto studentCreationDto);
+    StudentPreviewDto createStudent(StudentCreationDto studentCreationDto);
 
     StudentPreviewDto updateStudent(StudentCreationDto studentCreationDto);
 

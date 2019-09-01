@@ -39,7 +39,7 @@ public class TeacherFacade implements TeacherService {
     }
 
     @Override
-    public TeacherPreviewDto saveTeacher(TeacherCreationDto teacherCreationDto) {
+    public TeacherPreviewDto createTeacher(TeacherCreationDto teacherCreationDto) {
         Teacher teacher = modelMapper.map(teacherCreationDto, Teacher.class);
         mapUser(teacherCreationDto, teacher);
         return modelMapper.map(teacherRepository.save(teacher), TeacherPreviewDto.class);
@@ -52,7 +52,7 @@ public class TeacherFacade implements TeacherService {
             teacher.setLastName(teacherCreationDto.getLastName());
             mapUser(teacherCreationDto, teacher);
             return modelMapper.map(teacherRepository.save(teacher), TeacherPreviewDto.class);
-        }).orElseGet(() -> saveTeacher(teacherCreationDto));
+        }).orElseGet(() -> createTeacher(teacherCreationDto));
     }
 
     @Override

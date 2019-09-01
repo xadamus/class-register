@@ -22,6 +22,8 @@ export class ApiService {
 
   private SUBJECTS_URL = `${this.BASE_URL}/subjects`;
 
+  private PROFILES_URL = `${this.BASE_URL}/profiles`;
+
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
   private CONTACT_URL = `${this.BASE_URL}/contact`;
 
@@ -82,6 +84,14 @@ export class ApiService {
 
   subject(subjectId: number) {
     return this.SUBJECTS_URL + '/' + subjectId;
+  }
+
+  profiles() {
+    return this.PROFILES_URL;
+  }
+
+  profile(profileId: number) {
+    return this.PROFILES_URL + '/' + profileId;
   }
 
   getAllSubjects(): Observable<Subject[]> {

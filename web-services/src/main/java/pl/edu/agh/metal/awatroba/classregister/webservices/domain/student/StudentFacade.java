@@ -39,7 +39,7 @@ public class StudentFacade implements StudentService {
     }
 
     @Override
-    public StudentPreviewDto saveStudent(StudentCreationDto studentCreationDto) {
+    public StudentPreviewDto createStudent(StudentCreationDto studentCreationDto) {
         Student student = modelMapper.map(studentCreationDto, Student.class);
         mapUser(studentCreationDto, student);
         return modelMapper.map(studentRepository.save(student), StudentPreviewDto.class);
@@ -52,7 +52,7 @@ public class StudentFacade implements StudentService {
             student.setLastName(studentCreationDto.getLastName());
             mapUser(studentCreationDto, student);
             return modelMapper.map(studentRepository.save(student), StudentPreviewDto.class);
-        }).orElseGet(() -> saveStudent(studentCreationDto));
+        }).orElseGet(() -> createStudent(studentCreationDto));
     }
 
     @Override

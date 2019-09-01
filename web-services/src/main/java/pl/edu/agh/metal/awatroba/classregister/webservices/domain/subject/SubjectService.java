@@ -11,7 +11,7 @@ public interface SubjectService {
 
     Collection<SubjectPreviewDto> getSubjects();
 
-    SubjectPreviewDto saveSubject(SubjectCreationDto subjectCreationDto);
+    SubjectPreviewDto createSubject(SubjectCreationDto subjectCreationDto);
 
     SubjectPreviewDto updateSubject(SubjectCreationDto subjectCreationDto);
 

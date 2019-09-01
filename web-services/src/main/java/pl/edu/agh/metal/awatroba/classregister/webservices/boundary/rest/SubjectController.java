@@ -62,7 +62,7 @@ public class SubjectController {
     @PostMapping
     @Secured("ROLE_ADMIN")
     public ResponseEntity<ApiResponseDto> createSubject(@RequestBody SubjectCreationDto subjectCreationDto) {
-        subjectService.saveSubject(subjectCreationDto);
+        subjectService.createSubject(subjectCreationDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/subjects/{id}")
                 .buildAndExpand(subjectCreationDto.getId()).toUri();
