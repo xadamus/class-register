@@ -53,7 +53,7 @@ export class SemesterComponent implements OnInit {
         const semester = selectedRecords[0] as Semester;
         this.semesterService.setCurrentSemester(semester.id).subscribe(this.responseHandler);
       } else {
-        this.alert.error('Nie zaznaczono żadnego ucznia.');
+        this.alert.error('Nie zaznaczono żadnego semestru.');
       }
     }
   }

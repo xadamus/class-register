@@ -31,6 +31,11 @@ class SemesterFacade implements SemesterService {
     }
 
     @Override
+    public Optional<SemesterPreviewDto> getSemester(Long semesterId) {
+        return semesterRepository.findById(semesterId).map(semester -> modelMapper.map(semester, SemesterPreviewDto.class));
+    }
+
+    @Override
     public Optional<SemesterPreviewDto> getCurrentSemester() {
         return semesterRepository.findByCurrent(true).stream().findFirst().map(semester -> modelMapper.map(semester, SemesterPreviewDto.class));
     }

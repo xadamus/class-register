@@ -8,6 +8,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.dto.ApiResponseDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.exceptions.ResourceNotFoundException;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.ProfileService;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationCreationDto;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationPreviewDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfileCreationDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfilePreviewDto;
 
@@ -66,5 +68,28 @@ public class ProfileController {
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto klasę."));
         else
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Brak klasy o podanym id."));
+    }
+
+    @GetMapping("/{profileId}/allocations")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<Collection<AllocationPreviewDto>> getProfileAllocations(@PathVariable Long profileId) {
+        return ResponseEntity.ok().body(profileService.getAllocations(profileId));
+    }
+
+    @PostMapping("/{profileId}/allocations")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> createProfileAllocation(@RequestBody AllocationCreationDto allocationCreationDto, @PathVariable Long profileId) {
+        allocationCreationDto.setProfileId(profileId);
+        profileService.createAllocation(allocationCreationDto);
+        return ResponseEntity.ok().body(new ApiResponseDto(true, "Utworzono nowy przydział."));
+    }
+
+    @DeleteMapping("/{profileId}/allocations/{allocationId}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> deleteProfileAllocation(@PathVariable Long profileId, @PathVariable Long allocationId) {
+        if (profileService.deleteProfileAllocation(profileId, allocationId))
+            return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto przydział."));
+        else
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
     }
 }

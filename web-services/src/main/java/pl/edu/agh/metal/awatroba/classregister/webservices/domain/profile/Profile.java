@@ -1,9 +1,7 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Profile {
@@ -14,6 +12,19 @@ public class Profile {
     private String name;
 
     private Integer level;
+
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<Allocation> allocations;
+
+    public void addAllocation(Allocation allocation) {
+        allocation.setProfile(this);
+        getAllocations().add(allocation);
+    }
+
+    public void removeAllocation(Allocation allocation) {
+        allocation.setProfile(null);
+        getAllocations().remove(allocation);
+    }
 
     public Long getId() {
         return id;
@@ -37,5 +48,13 @@ public class Profile {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public Collection<Allocation> getAllocations() {
+        return allocations;
+    }
+
+    public void setAllocations(Collection<Allocation> allocations) {
+        this.allocations = allocations;
     }
 }

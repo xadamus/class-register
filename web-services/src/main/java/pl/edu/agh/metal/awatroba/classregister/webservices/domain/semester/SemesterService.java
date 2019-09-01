@@ -9,6 +9,8 @@ public interface SemesterService {
 
     Collection<SemesterPreviewDto> getSemesters();
 
+    Optional<SemesterPreviewDto> getSemester(Long semesterId);
+
     Optional<SemesterPreviewDto> getCurrentSemester();
 
     void setCurrentSemester(Long semesterId);

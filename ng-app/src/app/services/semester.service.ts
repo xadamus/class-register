@@ -32,4 +32,5 @@ export class Semester {
   year: number;
   period: number;
   current: boolean;
+  fullName: string;
 }

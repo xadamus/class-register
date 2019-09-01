@@ -94,6 +94,14 @@ export class ApiService {
     return this.PROFILES_URL + '/' + profileId;
   }
 
+  profileAllocations(profileId: number) {
+    return this.PROFILES_URL + '/' + profileId + '/allocations';
+  }
+
+  profileAllocation(profileId: number, allocationId: number) {
+    return this.profileAllocations(profileId) + '/' + allocationId;
+  }
+
   getAllSubjects(): Observable<Subject[]> {
     return this.http.get<Subject[]>(this.ALL_SUBJECTS_URL);
   }

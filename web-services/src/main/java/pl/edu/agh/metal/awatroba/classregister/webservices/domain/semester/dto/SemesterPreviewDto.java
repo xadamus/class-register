@@ -1,5 +1,7 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.dto;
 
+import static java.lang.Boolean.TRUE;
+
 public class SemesterPreviewDto {
     private Long id;
 
@@ -8,6 +10,16 @@ public class SemesterPreviewDto {
     private Integer period;
 
     private Boolean current;
+
+    public String getFullName() {
+        StringBuilder builder = new StringBuilder();
+        builder
+                .append(year).append('/').append(year+1)
+                .append(" (semestr ").append(period).append(")");
+        if (TRUE.equals(current))
+            builder.append(" [aktualny]");
+        return builder.toString();
+    }
 
     public Long getId() {
         return id;
