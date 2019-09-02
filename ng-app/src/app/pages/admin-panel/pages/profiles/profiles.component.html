@@ -12,7 +12,7 @@
   <div class="modal-header">
     <h4 class="modal-title pull-left" *ngIf="!editingProfile">Tworzenie klasy</h4>
     <h4 class="modal-title pull-left" *ngIf="editingProfile">Edycja klasy {{editedProfile.name}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close" (click)="finishEditing()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -36,15 +36,15 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn" aria-label="Close" (click)="modalRef.hide()">Zamknij</button>
+    <button type="button" class="btn" aria-label="Close" (click)="finishEditing()">Zamknij</button>
     <button type="submit" class="btn btn-primary" (click)="f.form.valid && saveProfile(editedProfile)">Zapisz</button>
   </div>
 </ng-template>
 
 <ng-template #editAllocationTemplate>
   <div class="modal-header">
-    <h4 class="modal-title pull-left" >Przydziały klasy {{editedProfile.name}}</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <h4 class="modal-title pull-left" >Nauczyciele klasy {{editedProfile.name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="finishEditing()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -73,7 +73,7 @@
 
       <button type="submit" class="btn btn-primary mb-2" (click)="createAllocation()">Dodaj</button>
     </form>
-    <ejs-grid #allocationGrid [dataSource]="allocations" [editSettings]='editSettings' [toolbar]='allocationToolbar'
+    <ejs-grid #allocationGrid [dataSource]="allocations" [editSettings]='editSettings' [toolbar]='deleteToolbar'
               (actionComplete)='allocationActionComplete($event)'
               gridLines="Both">
       <e-columns>
@@ -84,6 +84,45 @@
     </ejs-grid>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn" aria-label="Close" (click)="modalRef.hide()">Zamknij</button>
+    <button type="button" class="btn" aria-label="Close" (click)="finishEditing()">Zamknij</button>
+  </div>
+</ng-template>
+
+<ng-template #editMembershipTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" >Uczniowie klasy {{editedProfile.name}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="finishEditing()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="membershipSemester">Semestr</label>
+        <select [(ngModel)]="newMembership.semesterId" id="membershipSemester" name="membershipSemester" class="form-control">
+          <option *ngFor="let semester of semesters" [ngValue]="semester.id">{{semester.fullName}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="student">Uczeń</label>
+        <select [(ngModel)]="newMembership.studentId" id="student" name="student" class="form-control">
+          <option *ngFor="let student of students" [ngValue]="student.id">{{student.firstName}} {{student.lastName}}</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary mb-2" (click)="createMembership()">Dodaj</button>
+    </form>
+    <ejs-grid #membershipGrid [dataSource]="memberships" [editSettings]='editSettings' [toolbar]='deleteToolbar'
+              (actionComplete)='membershipActionComplete($event)'
+              gridLines="Both">
+      <e-columns>
+        <e-column field="semester.fullName" headerText="Semestr" [width]="200"></e-column>
+        <e-column field="student.fullName" headerText="Uczeń"></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" aria-label="Close" (click)="finishEditing()">Zamknij</button>
   </div>
 </ng-template>

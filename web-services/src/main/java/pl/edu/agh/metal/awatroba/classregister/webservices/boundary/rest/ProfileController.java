@@ -8,10 +8,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.dto.ApiResponseDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.exceptions.ResourceNotFoundException;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.ProfileService;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationPreviewDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfileCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfilePreviewDto;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 
 import java.net.URI;
 import java.util.Collection;
@@ -89,6 +86,29 @@ public class ProfileController {
     public ResponseEntity<ApiResponseDto> deleteProfileAllocation(@PathVariable Long profileId, @PathVariable Long allocationId) {
         if (profileService.deleteProfileAllocation(profileId, allocationId))
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto przydział."));
+        else
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+    }
+
+    @GetMapping("/{profileId}/memberships")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<Collection<MembershipPreviewDto>> getProfileMembership(@PathVariable Long profileId) {
+        return ResponseEntity.ok().body(profileService.getMemberships(profileId));
+    }
+
+    @PostMapping("/{profileId}/memberships")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> createProfileMembership(@RequestBody MembershipCreationDto membershipCreationDto, @PathVariable Long profileId) {
+        membershipCreationDto.setProfileId(profileId);
+        profileService.createMembership(membershipCreationDto);
+        return ResponseEntity.ok().body(new ApiResponseDto(true, "Utworzono członkostwo."));
+    }
+
+    @DeleteMapping("/{profileId}/memberships/{membershipId}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> deleteProfileMembership(@PathVariable Long profileId, @PathVariable Long membershipId) {
+        if (profileService.deleteMembership(profileId, membershipId))
+            return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto członkostwo."));
         else
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
     }

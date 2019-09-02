@@ -3,11 +3,9 @@ package pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationPreviewDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfileCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfilePreviewDto;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.SemesterRepository;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.StudentRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.SubjectRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.TeacherRepository;
 
@@ -24,6 +22,8 @@ public class ProfileFacade implements ProfileService {
 
     private SemesterRepository semesterRepository;
     private TeacherRepository teacherRepository;
+    private StudentRepository studentRepository;
+    private MembershipRepository membershipRepository;
     private SubjectRepository subjectRepository;
     private ModelMapper modelMapper;
 
@@ -31,12 +31,16 @@ public class ProfileFacade implements ProfileService {
                          AllocationRepository allocationRepository,
                          SemesterRepository semesterRepository,
                          TeacherRepository teacherRepository,
+                         StudentRepository studentRepository,
+                         MembershipRepository membershipRepository,
                          SubjectRepository subjectRepository,
                          ModelMapper modelMapper) {
         this.profileRepository = profileRepository;
         this.allocationRepository = allocationRepository;
         this.semesterRepository = semesterRepository;
         this.teacherRepository = teacherRepository;
+        this.studentRepository = studentRepository;
+        this.membershipRepository = membershipRepository;
         this.subjectRepository = subjectRepository;
         this.modelMapper = modelMapper;
     }
@@ -100,6 +104,34 @@ public class ProfileFacade implements ProfileService {
     public boolean deleteProfileAllocation(Long profileId, Long allocationId) {
         return allocationRepository.findById(allocationId).map(allocation -> {
             allocationRepository.deleteById(allocationId);
+            return true;
+        }).orElse(false);
+    }
+
+    @Override
+    public Collection<MembershipPreviewDto> getMemberships(Long profileId) {
+        return profileRepository.findById(profileId)
+                .map(profile -> profile.getMemberships().stream()
+                        .map(membership -> modelMapper.map(membership, MembershipPreviewDto.class)).collect(Collectors.toList()))
+                .orElseGet(Collections::emptyList);
+    }
+
+    @Override
+    public MembershipPreviewDto createMembership(MembershipCreationDto membershipCreationDto) {
+        return profileRepository.findById(membershipCreationDto.getProfileId()).map(profile -> {
+            Membership membership = new Membership();
+            semesterRepository.findById(membershipCreationDto.getSemesterId()).ifPresent(membership::setSemester);
+            studentRepository.findById(membershipCreationDto.getStudentId()).ifPresent(membership::setStudent);
+            profile.addMembership(membership);
+            profileRepository.save(profile);
+            return modelMapper.map(membership, MembershipPreviewDto.class);
+        }).orElse(new MembershipPreviewDto());
+    }
+
+    @Override
+    public boolean deleteMembership(Long profileId, Long membershipId) {
+        return membershipRepository.findById(membershipId).map(membership -> {
+            membershipRepository.deleteById(membershipId);
             return true;
         }).orElse(false);
     }

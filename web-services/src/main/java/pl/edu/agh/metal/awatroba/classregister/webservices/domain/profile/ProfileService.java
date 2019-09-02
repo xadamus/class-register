@@ -1,9 +1,6 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile;
 
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationPreviewDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfileCreationDto;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.ProfilePreviewDto;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -24,4 +21,10 @@ public interface ProfileService {
     AllocationPreviewDto createAllocation(AllocationCreationDto allocationCreationDto);
 
     boolean deleteProfileAllocation(Long profileId, Long allocationId);
+
+    Collection<MembershipPreviewDto> getMemberships(Long profileId);
+
+    MembershipPreviewDto createMembership(MembershipCreationDto membershipCreationDto);
+
+    boolean deleteMembership(Long profileId, Long membershipId);
 }

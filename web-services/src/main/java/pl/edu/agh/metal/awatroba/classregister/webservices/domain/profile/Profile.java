@@ -16,6 +16,9 @@ public class Profile {
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Allocation> allocations;
 
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<Membership> memberships;
+
     public void addAllocation(Allocation allocation) {
         allocation.setProfile(this);
         getAllocations().add(allocation);
@@ -24,6 +27,16 @@ public class Profile {
     public void removeAllocation(Allocation allocation) {
         allocation.setProfile(null);
         getAllocations().remove(allocation);
+    }
+
+    public void addMembership(Membership membership) {
+        membership.setProfile(this);
+        getMemberships().add(membership);
+    }
+
+    public void removeMembership(Membership membership) {
+        membership.setProfile(null);
+        getMemberships().remove(membership);
     }
 
     public Long getId() {
@@ -56,5 +69,13 @@ public class Profile {
 
     public void setAllocations(Collection<Allocation> allocations) {
         this.allocations = allocations;
+    }
+
+    public Collection<Membership> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(Collection<Membership> memberships) {
+        this.memberships = memberships;
     }
 }

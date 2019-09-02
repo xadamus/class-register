@@ -2,11 +2,19 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AlertService} from '../../../../services/alert.service';
 import {EditSettingsModel, GridComponent, SaveEventArgs, ToolbarItems} from '@syncfusion/ej2-angular-grids';
 import {ClickEventArgs} from '@syncfusion/ej2-navigations';
-import {Allocation, AllocationCreationDto, Profile, ProfilesService} from '../../../../services/profiles.service';
+import {
+  Allocation,
+  AllocationCreationDto,
+  Membership,
+  MembershipCreationDto,
+  Profile,
+  ProfilesService
+} from '../../../../services/profiles.service';
 import {BsModalRef, BsModalService} from 'ngx-bootstrap';
 import {Semester, SemesterService} from '../../../../services/semester.service';
 import {Teacher, TeachersService} from '../../../../services/teachers.service';
 import {Subject, SubjectsService} from '../../../../services/subjects.service';
+import {Student, StudentsService} from '../../../../services/students.service';
 
 @Component({
   selector: 'app-profiles',
@@ -23,12 +31,16 @@ export class ProfilesComponent implements OnInit {
   editingProfile: boolean;
   levels = [1, 2, 3, 4, 5, 6, 7, 8];
 
-  allocationToolbar: ToolbarItems[] | object;
+  deleteToolbar: ToolbarItems[] | object;
   allocations: Allocation[];
   newAllocation: AllocationCreationDto;
   semesters: Semester[];
   teachers: Teacher[];
   subjects: Subject[];
+
+  memberships: Membership[];
+  newMembership: MembershipCreationDto;
+  students: Student[];
 
   @ViewChild('grid')
   public grid: GridComponent;
@@ -42,6 +54,12 @@ export class ProfilesComponent implements OnInit {
   @ViewChild('editAllocationTemplate')
   public editAllocationTemplate;
 
+  @ViewChild('membershipGrid')
+  public membershipGrid: GridComponent;
+
+  @ViewChild('editMembershipTemplate')
+  public editMembershipTemplate;
+
   private responseHandler = {
     next: response => {
       if (response.success) {
@@ -52,6 +70,7 @@ export class ProfilesComponent implements OnInit {
       this.loadProfiles();
       if (this.editedProfile != null) {
         this.loadAllocations(this.editedProfile);
+        this.loadMemberships(this.editedProfile);
       }
     },
     error: error => {
@@ -65,6 +84,7 @@ export class ProfilesComponent implements OnInit {
               private modalService: BsModalService,
               private semesterService: SemesterService,
               private teacherService: TeachersService,
+              private studentService: StudentsService,
               private subjectService: SubjectsService) { }
 
   ngOnInit() {
@@ -74,9 +94,10 @@ export class ProfilesComponent implements OnInit {
       {text: 'Dodaj', prefixIcon: 'e-add', id: 'add'},
       {text: 'Edytuj', prefixIcon: 'e-edit', id: 'edit'},
       'Delete',
-      {text: 'Przydziały', prefixIcon: 'e-columnchooser', id: 'allocation'}
+      {text: 'Nauczyciele', prefixIcon: 'e-columnchooser', id: 'allocation'},
+      {text: 'Uczniowie', prefixIcon: 'e-icon-rowselect', id: 'membership'}
     ];
-    this.allocationToolbar = [
+    this.deleteToolbar = [
       'Delete'
     ];
   }
@@ -94,6 +115,12 @@ export class ProfilesComponent implements OnInit {
     } else if (args.item.id === 'allocation') {
       if (selectedRecords.length > 0) {
         this.editAllocation(selectedRecords[0] as Profile);
+      } else {
+        this.alert.error('Nie zaznaczono żadnej klasy.');
+      }
+    } else if (args.item.id === 'membership') {
+      if (selectedRecords.length > 0) {
+        this.editMembership(selectedRecords[0] as Profile);
       } else {
         this.alert.error('Nie zaznaczono żadnej klasy.');
       }
@@ -126,12 +153,26 @@ export class ProfilesComponent implements OnInit {
     this.subjectService.getSubjects().subscribe(values => {
       this.subjects = values;
     });
-    this.modalRef = this.modalService.show(this.editAllocationTemplate);
+    this.modalRef = this.modalService.show(this.editAllocationTemplate, {class: 'modal-lg'});
   }
 
   saveProfile(profile: Profile) {
     this.profilesService.saveProfile(profile).subscribe(this.responseHandler);
-    this.modalRef.hide();
+    this.finishEditing();
+  }
+
+  editMembership(profile: Profile) {
+    this.loadMemberships(profile);
+    this.editedProfile = profile;
+    this.newMembership = new MembershipCreationDto();
+    this.newMembership.profileId = profile.id;
+    this.semesterService.getSemesters().subscribe(values => {
+      this.semesters = values;
+    });
+    this.studentService.getStudents().subscribe(values => {
+      this.students = values;
+    });
+    this.modalRef = this.modalService.show(this.editMembershipTemplate, {class: 'modal-lg'});
   }
 
   allocationActionComplete(args: SaveEventArgs): void {
@@ -144,6 +185,27 @@ export class ProfilesComponent implements OnInit {
     this.profilesService.createProfileAllocation(this.newAllocation).subscribe(this.responseHandler);
   }
 
+  membershipActionComplete(args: SaveEventArgs): void {
+    if (args.requestType === 'delete') {
+      this.profilesService.deleteProfileMembership(args.data[0]).subscribe(this.responseHandler);
+    }
+  }
+
+  createMembership() {
+    this.profilesService.createProfileMembership(this.newMembership).subscribe(this.responseHandler);
+  }
+
+  finishEditing() {
+    this.modalRef.hide();
+    this.editedProfile = null;
+    this.newAllocation = null;
+    this.newMembership = null;
+    this.semesters = null;
+    this.students = null;
+    this.teachers = null;
+    this.subjects = null;
+  }
+
   private loadProfiles() {
     this.profilesService.getProfiles().subscribe(profiles => {
       this.profiles = profiles;
@@ -153,6 +215,12 @@ export class ProfilesComponent implements OnInit {
   private loadAllocations(profile: Profile) {
     this.profilesService.getProfileAllocations(profile).subscribe(result => {
       this.allocations = result;
+    });
+  }
+
+  private loadMemberships(profile: Profile) {
+    this.profilesService.getProfileMemberships(profile).subscribe(result => {
+      this.memberships = result;
     });
   }
 }

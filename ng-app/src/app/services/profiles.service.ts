@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {Semester} from './semester.service';
 import {Subject} from './subjects.service';
 import {Teacher} from './teachers.service';
+import {Student} from './students.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,18 @@ export class ProfilesService {
   createProfileAllocation(allocation: AllocationCreationDto) {
     return this.http.post<ApiResponseDto>(this.api.profileAllocations(allocation.profileId), allocation);
   }
+
+  getProfileMemberships(profile: Profile) {
+    return this.http.get<Membership[]>(this.api.profileMemberships(profile.id));
+  }
+
+  deleteProfileMembership(membership: Membership) {
+    return this.http.delete<ApiResponseDto>(this.api.profileMembership(membership.profile.id, membership.id));
+  }
+
+  createProfileMembership(membership: MembershipCreationDto) {
+    return this.http.post<ApiResponseDto>(this.api.profileMemberships(membership.profileId), membership);
+  }
 }
 
 export class Profile {
@@ -62,4 +75,17 @@ export class AllocationCreationDto {
   teacherId: number;
   profileId: number;
   subjectId: number;
+}
+
+export class Membership {
+  id: number;
+  semester: Semester;
+  student: Student;
+  profile: Profile;
+}
+
+export class MembershipCreationDto {
+  semesterId: number;
+  studentId: number;
+  profileId: number;
 }
