@@ -1,6 +1,7 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.user.dto;
 
 import org.springframework.security.core.GrantedAuthority;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.dto.TeacherPreviewDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.user.User;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class UserPreviewDto {
     private String email;
     private List<String> roles;
 
+    private TeacherPreviewDto teacher;
+
     public static UserPreviewDto of(User user) {
         UserPreviewDto userPreviewDto = new UserPreviewDto();
         userPreviewDto.id = user.getId();
@@ -22,6 +25,8 @@ public class UserPreviewDto {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
+        if (user.getTeacher() != null)
+            userPreviewDto.teacher = TeacherPreviewDto.of(user.getTeacher());
         return userPreviewDto;
     }
 
@@ -57,4 +62,11 @@ public class UserPreviewDto {
         this.roles = roles;
     }
 
+    public TeacherPreviewDto getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(TeacherPreviewDto teacher) {
+        this.teacher = teacher;
+    }
 }

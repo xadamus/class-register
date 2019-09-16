@@ -11,6 +11,14 @@ public class SemesterPreviewDto {
 
     private Boolean current;
 
+    public String getName() {
+        StringBuilder builder = new StringBuilder();
+        builder
+                .append(year).append('/').append(year+1)
+                .append(" (semestr ").append(period).append(")");
+        return builder.toString();
+    }
+
     public String getFullName() {
         StringBuilder builder = new StringBuilder();
         builder

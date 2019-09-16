@@ -135,4 +135,14 @@ public class ProfileFacade implements ProfileService {
             return true;
         }).orElse(false);
     }
+
+    @Override
+    public Collection<AllocationPreviewDto> getTeacherAllocations(Long teacherId, Long semesterId) {
+        return profileRepository.findById(teacherId).map(profile ->
+                profile.getAllocations().stream()
+                        .filter(allocation -> allocation.getSemester().getId().equals(semesterId))
+                        .map(allocation -> modelMapper.map(allocation, AllocationPreviewDto.class))
+                        .collect(Collectors.toList()))
+                .orElse(Collections.emptyList());
+    }
 }

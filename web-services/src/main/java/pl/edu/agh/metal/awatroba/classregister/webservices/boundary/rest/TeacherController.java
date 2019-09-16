@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.dto.ApiResponseDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.exceptions.ResourceNotFoundException;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.ProfileService;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.AllocationPreviewDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.TeacherService;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.dto.TeacherCreationDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.dto.TeacherPreviewDto;
@@ -18,10 +20,13 @@ import java.util.Collection;
 @RequestMapping("/api/teachers")
 public class TeacherController {
     private TeacherService teacherService;
+    private ProfileService profileService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService) {
+    public TeacherController(TeacherService teacherService,
+                             ProfileService profileService) {
         this.teacherService = teacherService;
+        this.profileService = profileService;
     }
 
     @GetMapping
@@ -69,5 +74,11 @@ public class TeacherController {
         } else {
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Brak nauczyciela o podanym id."));
         }
+    }
+
+    @GetMapping("/{teacherId}/allocations")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<Collection<AllocationPreviewDto>> getTeacherProfiles(@PathVariable Long teacherId, @RequestParam Long semesterId) {
+        return ResponseEntity.ok().body(profileService.getTeacherAllocations(teacherId, semesterId));
     }
 }

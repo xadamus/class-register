@@ -23,7 +23,7 @@ export class SemesterService {
   }
 
   getCurrentSemester() {
-    return this.http.get(this.api.currentSemester());
+    return this.http.get<Semester>(this.api.currentSemester());
   }
 }
 
@@ -32,5 +32,6 @@ export class Semester {
   year: number;
   period: number;
   current: boolean;
+  name: string;
   fullName: string;
 }

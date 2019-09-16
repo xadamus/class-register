@@ -98,6 +98,10 @@ export class ApiService {
     return this.PROFILES_URL + '/' + profileId + '/allocations';
   }
 
+  teacherProfileAllocations(teacherId: number, semesterId: number) {
+    return this.teacher(teacherId) + '/allocations?semesterId=' + semesterId;
+  }
+
   profileAllocation(profileId: number, allocationId: number) {
     return this.profileAllocations(profileId) + '/' + allocationId;
   }

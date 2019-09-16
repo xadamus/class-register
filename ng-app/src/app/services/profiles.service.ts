@@ -54,6 +54,10 @@ export class ProfilesService {
   createProfileMembership(membership: MembershipCreationDto) {
     return this.http.post<ApiResponseDto>(this.api.profileMemberships(membership.profileId), membership);
   }
+
+  getTeacherProfileAllocations(teacher: Teacher, semester: Semester) {
+    return this.http.get<Allocation[]>(this.api.teacherProfileAllocations(teacher.id, semester.id));
+  }
 }
 
 export class Profile {

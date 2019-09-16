@@ -27,4 +27,7 @@ public interface ProfileService {
     MembershipPreviewDto createMembership(MembershipCreationDto membershipCreationDto);
 
     boolean deleteMembership(Long profileId, Long membershipId);
+
+    Collection<AllocationPreviewDto> getTeacherAllocations(Long teacherId, Long semesterId);
+
 }

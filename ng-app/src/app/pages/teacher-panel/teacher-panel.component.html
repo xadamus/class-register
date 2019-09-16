@@ -1,0 +1,34 @@
+<div class="d-flex" id="wrapper">
+
+  <div class="bg-light border" id="sidebar-wrapper">
+    <div class="sidebar-heading">Panel nauczyciela </div>
+    <div>
+      <div class="list-group list-group-flush p-2">
+        <em>Semestr: {{semester.name}}</em>
+        <em>Klasa:
+            <button #profileButton *ngIf="semester != null" class="btn btn-sm btn-warning dropdown-toggle" type="button" data-toggle="dropdown">
+              <span *ngIf="allocation != null">{{allocation.profile.name + ' (' + allocation?.subject.name + ')'}}</span>
+              <span *ngIf="allocation == null">wybierz klasę</span>
+              <span class="caret"></span></button>
+            <div class="dropdown-menu">
+              <a *ngFor="let allocation of availableAllocations" class="dropdown-item" (click)="chooseAllocation(allocation)">{{allocation.profile.name}} ({{allocation.subject.name}})</a>
+            </div>
+        </em>
+        <div>
+
+        </div>
+      </div>
+    </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action bg-light" routerLink="/teacher"><i class="fa fa-home" aria-hidden="true"></i> Strona główna</a>
+      <a class="list-group-item list-group-item-action bg-light" routerLink="marks"><i class="fa fa-th" aria-hidden="true"></i> Oceny</a>
+    </div>
+  </div>
+
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

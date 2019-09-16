@@ -26,6 +26,9 @@ import {TeacherManagementComponent} from './pages/admin-panel/pages/teacher-mana
 import {SemesterComponent} from './pages/admin-panel/pages/semester/semester.component';
 import {SubjectsComponent} from './pages/admin-panel/pages/subjects/subjects.component';
 import {ProfilesComponent} from './pages/admin-panel/pages/profiles/profiles.component';
+import {TeacherPanelComponent} from './pages/teacher-panel/teacher-panel.component';
+import {TeacherDashboardComponent} from './pages/teacher-panel/pages/teacher-dashboard/teacher-dashboard.component';
+import {TeacherMarksComponent} from './pages/teacher-panel/pages/teacher-marks/teacher-marks.component';
 
 const appRoutes = [
   {
@@ -67,6 +70,20 @@ const appRoutes = [
     ]
   },
   {
+    path: 'teacher',
+    component: TeacherPanelComponent,
+    children: [
+      {
+        path: '',
+        component: TeacherDashboardComponent
+      },
+      {
+        path: 'marks',
+        component: TeacherMarksComponent
+      }
+    ]
+  },
+  {
     path: 'marks',
     component: MarksComponent
   },
@@ -104,7 +121,10 @@ const appRoutes = [
     TeacherManagementComponent,
     SemesterComponent,
     SubjectsComponent,
-    ProfilesComponent
+    ProfilesComponent,
+    TeacherPanelComponent,
+    TeacherDashboardComponent,
+    TeacherMarksComponent
   ],
   imports: [
     BrowserModule,
@@ -121,4 +141,5 @@ const appRoutes = [
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

@@ -2,6 +2,7 @@ import {EventEmitter, Injectable, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
+import {Teacher} from './teachers.service';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,8 @@ export class AuthService {
   }
 
   public hasRole(role: string): boolean {
-    return this.authenticated() && this.getCurrentUser().roles.indexOf(role) > -1;
+    const currentUser = this.getCurrentUser();
+    return this.authenticated() && currentUser != null && currentUser.roles.indexOf(role) > -1;
   }
 
   private retrieveCurrentUser() {
@@ -75,6 +77,7 @@ export class User {
   password: string;
   email: string;
   roles: string[] = [];
+  teacher: Teacher;
 }
 
 export class Token {
