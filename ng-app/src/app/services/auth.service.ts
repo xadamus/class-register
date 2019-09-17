@@ -23,8 +23,7 @@ export class AuthService {
       tokenObservable.subscribe(response => {
         localStorage.setItem(this.TOKEN_SESSION_KEY, response.accessToken);
         localStorage.setItem(this.TOKEN_TYPE_SESSION_KEY, response.tokenType);
-        this.retrieveCurrentUser();
-        observer.next();
+        this.retrieveCurrentUser(observer);
       }, error => {
         observer.error();
       });
@@ -60,13 +59,15 @@ export class AuthService {
     return this.authenticated() && currentUser != null && currentUser.roles.indexOf(role) > -1;
   }
 
-  private retrieveCurrentUser() {
+  private retrieveCurrentUser(observer) {
     this.http.get<User>(this.api.currentUser()).subscribe(response => {
       localStorage.setItem(this.USER_SESSION_KEY, JSON.stringify(response));
       this.change.emit();
+      observer.next();
     }, error => {
       localStorage.removeItem(this.USER_SESSION_KEY);
       this.change.emit();
+      observer.error();
     });
   }
 }
