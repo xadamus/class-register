@@ -1,51 +1,49 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.Membership;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.Subject;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.util.Date;
-import java.util.UUID;
+import javax.persistence.*;
 
 @Entity
 public class Mark {
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Integer value;
+    private String value;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subject_id")
     @JsonIgnore
     private Subject subject;
 
-    private Date lastModifiedOn;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "membership_id")
+    private Membership membership;
 
-    protected Mark() {
-        this.id = UUID.randomUUID();
-        this.lastModifiedOn = new Date();
+    public Mark() {
     }
 
-    public Mark(Integer value) {
+    public Mark(String value) {
         this();
         this.value = value;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Integer value) {
+    public void setValue(String value) {
         this.value = value;
     }
 
@@ -57,11 +55,11 @@ public class Mark {
         this.subject = subject;
     }
 
-    public Date getLastModifiedOn() {
-        return lastModifiedOn;
+    public Membership getMembership() {
+        return membership;
     }
 
-    public void setLastModifiedOn(Date lastModifiedOn) {
-        this.lastModifiedOn = lastModifiedOn;
+    public void setMembership(Membership membership) {
+        this.membership = membership;
     }
 }

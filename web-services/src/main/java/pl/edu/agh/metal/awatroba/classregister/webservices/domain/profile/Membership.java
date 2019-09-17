@@ -1,9 +1,11 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile;
 
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.Mark;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.Semester;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.Student;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 public class Membership {
@@ -22,6 +24,9 @@ public class Membership {
     @ManyToOne(optional = false)
     @JoinColumn(name = "profile_id")
     private Profile profile;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "membership", cascade = CascadeType.ALL)
+    private Collection<Mark> marks;
 
     public Long getId() {
         return id;
@@ -53,5 +58,13 @@ public class Membership {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public Collection<Mark> getMarks() {
+        return marks;
+    }
+
+    public void setMarks(Collection<Mark> marks) {
+        this.marks = marks;
     }
 }

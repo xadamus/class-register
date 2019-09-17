@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.Mark;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.Subject;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.SubjectRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.user.Authority;
@@ -33,12 +32,8 @@ public class Runner implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Subject subject = new Subject("Informatyka");
-        subject.addMark(new Mark(5));
-        subject.addMark(new Mark(6));
         subjectRepository.save(subject);
         subject = new Subject("Religia");
-        subject.addMark(new Mark(1));
-        subject.addMark(new Mark(2));
         subjectRepository.save(subject);
 
         User user = new User("xadamus", "xadamus@classregister.com", passwordEncoder.encode("testing"));

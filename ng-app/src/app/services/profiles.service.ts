@@ -58,6 +58,18 @@ export class ProfilesService {
   getTeacherProfileAllocations(teacher: Teacher, semester: Semester) {
     return this.http.get<Allocation[]>(this.api.teacherProfileAllocations(teacher.id, semester.id));
   }
+
+  getMarks(membershipId: number, subjectId: number) {
+    return this.http.get<Mark[]>(this.api.marks(membershipId, subjectId));
+  }
+
+  addMark(membershipId: number, subjectId: number, mark: Mark) {
+    return this.http.post<ApiResponseDto>(this.api.marks(membershipId, subjectId), mark);
+  }
+
+  deleteMark(membershipId: number, subjectId: number, mark: Mark) {
+    return this.http.delete<ApiResponseDto>(this.api.mark(membershipId, subjectId, mark.id));
+  }
 }
 
 export class Profile {
@@ -86,10 +98,18 @@ export class Membership {
   semester: Semester;
   student: Student;
   profile: Profile;
+  marks: string[];
 }
 
 export class MembershipCreationDto {
   semesterId: number;
   studentId: number;
   profileId: number;
+}
+
+export class Mark {
+  id: number;
+  value: string;
+  membership: Membership;
+  subject: Subject;
 }

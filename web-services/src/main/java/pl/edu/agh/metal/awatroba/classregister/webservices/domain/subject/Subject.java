@@ -17,7 +17,7 @@ public class Subject {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mark> marks;
 
-    private Subject() {
+    public Subject() {
         this.marks = new ArrayList<>();
     }
 

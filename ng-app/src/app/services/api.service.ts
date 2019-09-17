@@ -118,6 +118,14 @@ export class ApiService {
     return this.http.get<Subject[]>(this.ALL_SUBJECTS_URL);
   }
 
+  marks(membershipId: number, subjectId: number) {
+    return this.profileMembership(0, membershipId) + '/marks?subjectId=' + subjectId;
+  }
+
+  mark(membershipId: number, subjectId: number, markId: number) {
+    return this.profileMembership(0, membershipId) + '/marks/' + markId + '?subjectId=' + subjectId;
+  }
+
   sendMessage(message: ContactViewModel): Observable<any> {
     return this.http.post(this.CONTACT_URL, message);
   }

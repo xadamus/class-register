@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.dto.ApiResponseDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.exceptions.ResourceNotFoundException;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.MarkService;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.dto.MarkCreationDto;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.dto.MarkPreviewDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.ProfileService;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 
@@ -17,10 +20,13 @@ import java.util.Collection;
 @RequestMapping("/api/profiles")
 public class ProfileController {
     private ProfileService profileService;
+    private MarkService markService;
 
     @Autowired
-    public ProfileController(ProfileService profileService) {
+    public ProfileController(ProfileService profileService,
+                             MarkService markService) {
         this.profileService = profileService;
+        this.markService = markService;
     }
 
     @GetMapping
@@ -111,5 +117,41 @@ public class ProfileController {
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto członkostwo."));
         else
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+    }
+
+    // TODO: to be improved
+    @GetMapping("/{profileId}/memberships/{membershipId}/marks")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_PARENT", "ROLE_STUDENT"})
+    public ResponseEntity<Collection<MarkPreviewDto>> getMarks(@PathVariable Long profileId,
+                                                               @PathVariable Long membershipId,
+                                                               @RequestParam Long subjectId) {
+        return ResponseEntity.ok(markService.getMarks(membershipId, subjectId));
+    }
+
+    // TODO: to be improved
+    @PostMapping("/{profileId}/memberships/{membershipId}/marks")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> addMark(@PathVariable Long profileId,
+                                                  @PathVariable Long membershipId,
+                                                  @RequestParam Long subjectId,
+                                                  @RequestBody MarkCreationDto markCreationDto) {
+        markCreationDto.setMembershipId(membershipId);
+        markCreationDto.setSubjectId(subjectId);
+        markService.createMark(markCreationDto);
+        return ResponseEntity.ok(new ApiResponseDto(true, "Dodano ocenę."));
+    }
+
+    // TODO: to be improved
+    @DeleteMapping("/{profileId}/memberships/{membershipId}/marks/{markId}")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    public ResponseEntity<ApiResponseDto> deleteMark(@PathVariable Long profileId,
+                                                  @PathVariable Long membershipId,
+                                                  @PathVariable Long markId,
+                                                  @RequestParam Long subjectId) {
+        if (markService.deleteMark(markId)) {
+            return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto ocenę."));
+        } else {
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+        }
     }
 }

@@ -1,3 +1,42 @@
-<p>
-  teacher-marks works!
-</p>
+<h3 class="mt-4">Oceny</h3>
+<ejs-grid #grid [dataSource]="memberships" [editSettings]='editSettings' [toolbar]='toolbar'
+          (toolbarClick)='membershipHandler($event)'
+          gridLines="Both">
+  <e-columns>
+    <e-column field="student.fullName" headerText="Uczeń"></e-column>
+    <e-column field="marks" headerText="Oceny"></e-column>
+  </e-columns>
+</ejs-grid>
+
+<ng-template #editMarksTemplate>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left" >Oceny ucznia {{editedMembership.student.fullName}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="finishEditing()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="markValue">Wartość oceny:</label>
+        <input type="text"
+               id="markValue"
+               class="form-control"
+               name="markValue"
+               [(ngModel)]="newMark.value"
+               #name="ngModel" />
+      </div>
+      <button type="submit" class="btn btn-primary mb-2" (click)="addMark()">Dodaj</button>
+    </form>
+    <ejs-grid #marksGrid [dataSource]="marks" [editSettings]='editSettings' [toolbar]='deleteToolbar'
+              (actionComplete)='marksActionComplete($event)'
+              gridLines="Both">
+      <e-columns>
+        <e-column field="value" headerText="Ocena"></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" aria-label="Close" (click)="finishEditing()">Zamknij</button>
+  </div>
+</ng-template>

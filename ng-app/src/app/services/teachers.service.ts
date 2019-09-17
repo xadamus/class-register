@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
 import {ApiResponseDto, ApiService} from './api.service';
 import {HttpClient} from '@angular/common/http';
+import {Allocation} from './profiles.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeachersService {
+  private currentAllocation: Allocation;
+
   constructor(private api: ApiService,
               private http: HttpClient) { }
 
@@ -27,6 +30,15 @@ export class TeachersService {
 
   delete(teacherData) {
     return this.http.delete<ApiResponseDto>(this.api.teacher(teacherData.id));
+  }
+
+
+  getCurrentAllocation(): Allocation {
+    return this.currentAllocation;
+  }
+
+  setCurrentAllocation(value: Allocation) {
+    this.currentAllocation = value;
   }
 }
 
