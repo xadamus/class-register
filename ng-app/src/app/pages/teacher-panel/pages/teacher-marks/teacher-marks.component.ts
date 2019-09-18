@@ -65,9 +65,13 @@ export class TeacherMarksComponent implements OnInit {
   }
 
   private loadMemberships() {
-    this.profileService.getProfileMemberships(this.teacherService.getCurrentAllocation().profile).subscribe(memberships => {
-      this.memberships = memberships;
-    });
+    this.profileService.getProfileMembershipsWithSubjectMarks(this.teacherService.getCurrentAllocation().profile, this.teacherService.getCurrentAllocation().subject)
+      .subscribe(memberships => {
+        memberships.forEach(membership => {
+          membership.marksString = membership.marks.map(m => m.value).join(', ');
+        });
+        this.memberships = memberships;
+      });
   }
 
   private loadMarks() {

@@ -29,6 +29,9 @@ import {ProfilesComponent} from './pages/admin-panel/pages/profiles/profiles.com
 import {TeacherPanelComponent} from './pages/teacher-panel/teacher-panel.component';
 import {TeacherDashboardComponent} from './pages/teacher-panel/pages/teacher-dashboard/teacher-dashboard.component';
 import {TeacherMarksComponent} from './pages/teacher-panel/pages/teacher-marks/teacher-marks.component';
+import {StudentPanelComponent} from './pages/student-panel/student-panel.component';
+import {StudentDashboardComponent} from './pages/student-panel/pages/student-dashboard/student-dashboard.component';
+import {StudentMarksComponent} from './pages/student-panel/pages/student-marks/student-marks.component';
 
 const appRoutes = [
   {
@@ -84,6 +87,20 @@ const appRoutes = [
     ]
   },
   {
+    path: 'student',
+    component: StudentPanelComponent,
+    children: [
+      {
+        path: '',
+        component: StudentDashboardComponent
+      },
+      {
+        path: 'marks',
+        component: StudentMarksComponent
+      }
+    ]
+  },
+  {
     path: 'marks',
     component: MarksComponent
   },
@@ -124,7 +141,10 @@ const appRoutes = [
     ProfilesComponent,
     TeacherPanelComponent,
     TeacherDashboardComponent,
-    TeacherMarksComponent
+    TeacherMarksComponent,
+    StudentPanelComponent,
+    StudentDashboardComponent,
+    StudentMarksComponent
   ],
   imports: [
     BrowserModule,

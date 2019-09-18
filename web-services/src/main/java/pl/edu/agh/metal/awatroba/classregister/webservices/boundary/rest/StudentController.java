@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.dto.ApiResponseDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest.exceptions.ResourceNotFoundException;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.MarkService;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.mark.dto.SubjectMarksDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.StudentService;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.dto.StudentCreationDto;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.dto.StudentPreviewDto;
@@ -18,10 +20,13 @@ import java.util.Collection;
 @RequestMapping("/api/students")
 public class StudentController {
     private StudentService studentService;
+    private MarkService markService;
 
     @Autowired
-    public StudentController(StudentService studentService) {
+    public StudentController(StudentService studentService,
+                             MarkService markService) {
         this.studentService = studentService;
+        this.markService = markService;
     }
 
     @GetMapping
@@ -69,6 +74,12 @@ public class StudentController {
         } else {
             return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Brak ucznia o podanym id."));
         }
+    }
+
+    @GetMapping("/{studentId}/marks")
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_PARENT", "ROLE_STUDENT"})
+    public ResponseEntity<Collection<SubjectMarksDto>> getStudentMarks(@PathVariable Long studentId) {
+        return ResponseEntity.ok(markService.getStudentMarks(studentId));
     }
 
 }

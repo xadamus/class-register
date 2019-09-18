@@ -15,6 +15,7 @@ import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 
 import java.net.URI;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profiles")
@@ -98,8 +99,14 @@ public class ProfileController {
 
     @GetMapping("/{profileId}/memberships")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<Collection<MembershipPreviewDto>> getProfileMembership(@PathVariable Long profileId) {
-        return ResponseEntity.ok().body(profileService.getMemberships(profileId));
+    public ResponseEntity<Collection<MembershipPreviewDto>> getProfileMembership(@PathVariable Long profileId,
+                                                                                 @RequestParam Long subjectId) {
+        Collection<MembershipPreviewDto> memberships = profileService.getMemberships(profileId);
+        if (subjectId != null)
+            memberships.forEach(membership -> membership.setMarks(
+                    membership.getMarks().stream().filter(mark -> mark.getSubject().getId().equals(subjectId.toString())).collect(Collectors.toList())
+            ));
+        return ResponseEntity.ok().body(memberships);
     }
 
     @PostMapping("/{profileId}/memberships")

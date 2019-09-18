@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ApiResponseDto, ApiService} from './api.service';
 import {HttpClient} from '@angular/common/http';
+import {Mark} from './profiles.service';
+import {Subject} from './subjects.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,10 @@ export class StudentsService {
   delete(studentData) {
     return this.http.delete<ApiResponseDto>(this.api.student(studentData.id));
   }
+
+  getStudentMarks(studentId: number) {
+    return this.http.get<SubjectMarks[]>(this.api.studentMarks(studentId));
+  }
 }
 
 export class Student {
@@ -43,4 +49,11 @@ export class StudentCreationDto {
   firstName: string;
   lastName: string;
   userId: number;
+}
+
+export class SubjectMarks {
+  subject: Subject;
+  marks: Mark[];
+
+  marksString: string;
 }

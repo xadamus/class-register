@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.profile.dto.*;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.SemesterRepository;
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.SemesterService;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.StudentRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.subject.SubjectRepository;
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.teacher.TeacherRepository;
@@ -21,6 +22,7 @@ public class ProfileFacade implements ProfileService {
     private AllocationRepository allocationRepository;
 
     private SemesterRepository semesterRepository;
+    private SemesterService semesterService;
     private TeacherRepository teacherRepository;
     private StudentRepository studentRepository;
     private MembershipRepository membershipRepository;
@@ -30,6 +32,7 @@ public class ProfileFacade implements ProfileService {
     public ProfileFacade(ProfileRepository profileRepository,
                          AllocationRepository allocationRepository,
                          SemesterRepository semesterRepository,
+                         SemesterService semesterService,
                          TeacherRepository teacherRepository,
                          StudentRepository studentRepository,
                          MembershipRepository membershipRepository,
@@ -38,6 +41,7 @@ public class ProfileFacade implements ProfileService {
         this.profileRepository = profileRepository;
         this.allocationRepository = allocationRepository;
         this.semesterRepository = semesterRepository;
+        this.semesterService = semesterService;
         this.teacherRepository = teacherRepository;
         this.studentRepository = studentRepository;
         this.membershipRepository = membershipRepository;

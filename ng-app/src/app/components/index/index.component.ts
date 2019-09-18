@@ -17,6 +17,12 @@ export class IndexComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     if (this.auth.hasRole('ROLE_ADMIN')) {
       this.router.navigate(['/admin']);
+    } else if (this.auth.hasRole('ROLE_TEACHER')) {
+      this.router.navigate(['/teacher']);
+    } else if (this.auth.hasRole('ROLE_PARENT')) {
+      this.router.navigate(['/parent']);
+    } else if (this.auth.hasRole('ROLE_STUDENT')) {
+      this.router.navigate(['/student']);
     } else {
       this.router.navigate(['/login']);
     }

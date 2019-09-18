@@ -47,6 +47,10 @@ export class ProfilesService {
     return this.http.get<Membership[]>(this.api.profileMemberships(profile.id));
   }
 
+  getProfileMembershipsWithSubjectMarks(profile: Profile, subject: Subject) {
+    return this.http.get<Membership[]>(this.api.profileMembershipsBySubject(profile.id, subject.id));
+  }
+
   deleteProfileMembership(membership: Membership) {
     return this.http.delete<ApiResponseDto>(this.api.profileMembership(membership.profile.id, membership.id));
   }
@@ -98,8 +102,11 @@ export class Membership {
   semester: Semester;
   student: Student;
   profile: Profile;
-  marks: string[];
+  marks: Mark[];
+
+  marksString: string;
 }
+
 
 export class MembershipCreationDto {
   semesterId: number;

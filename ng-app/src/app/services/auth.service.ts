@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {ApiService} from './api.service';
 import {Observable} from 'rxjs';
 import {Teacher} from './teachers.service';
+import {Student} from './students.service';
 
 @Injectable({
   providedIn: 'root'
@@ -79,6 +80,7 @@ export class User {
   email: string;
   roles: string[] = [];
   teacher: Teacher;
+  student: Student;
 }
 
 export class Token {

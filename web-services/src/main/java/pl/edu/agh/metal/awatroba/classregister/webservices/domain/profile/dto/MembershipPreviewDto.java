@@ -5,9 +5,6 @@ import pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester.dto.S
 import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.dto.StudentPreviewDto;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class MembershipPreviewDto {
     private Long id;
@@ -48,10 +45,8 @@ public class MembershipPreviewDto {
         this.profile = profile;
     }
 
-    public List<String> getMarks() {
-        if (marks != null)
-            return marks.stream().map(MarkPreviewDto::getValue).collect(Collectors.toList());
-        return Collections.emptyList();
+    public Collection<MarkPreviewDto> getMarks() {
+        return marks;
     }
 
     public void setMarks(Collection<MarkPreviewDto> marks) {

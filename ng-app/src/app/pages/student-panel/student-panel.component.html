@@ -1,0 +1,17 @@
+<div class="d-flex" id="wrapper">
+
+  <div class="bg-light border" id="sidebar-wrapper">
+    <div class="sidebar-heading">Panel ucznia </div>
+    <div class="list-group list-group-flush">
+      <a class="list-group-item list-group-item-action bg-light" routerLink="/student"><i class="fa fa-home" aria-hidden="true"></i> Strona główna</a>
+      <a class="list-group-item list-group-item-action bg-light" routerLink="marks"><i class="fa fa-th" aria-hidden="true"></i> Oceny</a>
+    </div>
+  </div>
+
+  <div id="page-content-wrapper">
+    <div class="container-fluid">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+</div>

@@ -26,7 +26,7 @@ public class SubjectController {
     }
 
     @GetMapping
-    @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
+    @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_PARENT", "ROLE_STUDENT"})
     public ResponseEntity<Collection<SubjectPreviewDto>> getSubjects() {
         return ResponseEntity.ok().body(subjectService.getSubjects());
     }

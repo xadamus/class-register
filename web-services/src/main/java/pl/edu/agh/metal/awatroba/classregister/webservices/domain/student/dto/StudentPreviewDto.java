@@ -1,11 +1,23 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.dto;
 
+import pl.edu.agh.metal.awatroba.classregister.webservices.domain.student.Student;
+
 public class StudentPreviewDto {
     private Long id;
     private String username;
     private String userId;
     private String firstName;
     private String lastName;
+
+    public static StudentPreviewDto of(Student student) {
+        StudentPreviewDto studentPreviewDto = new StudentPreviewDto();
+        studentPreviewDto.id = student.getId();
+        studentPreviewDto.username = student.getUser().getUsername();
+        studentPreviewDto.userId = student.getUser().getId().toString();
+        studentPreviewDto.firstName = student.getFirstName();
+        studentPreviewDto.lastName = student.getLastName();
+        return studentPreviewDto;
+    }
 
     public String getFullName() {
         return firstName + " " + lastName;

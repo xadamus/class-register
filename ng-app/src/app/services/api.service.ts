@@ -58,6 +58,10 @@ export class ApiService {
     return this.STUDENTS_URL + '/' + studentId;
   }
 
+  studentMarks(studentId: number) {
+    return this.student(studentId) + '/marks';
+  }
+
   teachers(): string {
     return this.TEACHERS_URL;
   }
@@ -108,6 +112,10 @@ export class ApiService {
 
   profileMemberships(profileId: number) {
     return this.PROFILES_URL + '/' + profileId + '/memberships';
+  }
+
+  profileMembershipsBySubject(profileId: number, subjectId: number) {
+    return this.PROFILES_URL + '/' + profileId + '/memberships?subjectId=' + subjectId;
   }
 
   profileMembership(profileId: number, membershipId: number) {
