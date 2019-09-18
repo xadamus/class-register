@@ -20,6 +20,7 @@ export class StudentsService {
     studentCreationDto.firstName = studentData.firstName;
     studentCreationDto.lastName = studentData.lastName;
     studentCreationDto.userId = studentData.userId;
+    studentCreationDto.parentId = studentData.parentId;
     if (studentData.id != null) {
       return this.http.put<ApiResponseDto>(this.api.student(studentData.id), studentCreationDto);
     } else {
@@ -43,12 +44,15 @@ export class Student {
   fullName: string;
   username: string;
   userId: number;
+  parentId: number;
+  parentName: string;
 }
 
 export class StudentCreationDto {
   firstName: string;
   lastName: string;
   userId: number;
+  parentId: number;
 }
 
 export class SubjectMarks {

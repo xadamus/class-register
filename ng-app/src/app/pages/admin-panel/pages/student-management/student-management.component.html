@@ -6,6 +6,7 @@
     <e-column field="firstName" headerText="Imię"></e-column>
     <e-column field="lastName" headerText="Nazwisko"></e-column>
     <e-column field="username" headerText="Nazwa użytkownika"></e-column>
+    <e-column field="parentName" headerText="Rodzic"></e-column>
   </e-columns>
 </ejs-grid>
 
@@ -38,11 +39,18 @@
                #name="ngModel" />
       </div>
       <div class="form-group">
+        <label for="parent">Rodzic</label>
+        <select [(ngModel)]="editedStudent.parentId" id="parent" name="parent" class="form-control">
+          <option *ngFor="let parent of freeParents" [ngValue]="parent.id">{{parent.username}}</option>
+        </select>
+      </div>
+      <div class="form-group">
         <label for="user">Użytkownik</label>
         <select [(ngModel)]="editedStudent.userId" id="user" name="user" class="form-control">
           <option *ngFor="let user of freeUsers" [ngValue]="user.id">{{user.username}}</option>
         </select>
       </div>
+
     </form>
   </div>
   <div class="modal-footer">

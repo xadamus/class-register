@@ -47,6 +47,10 @@ public class User extends DateAudit implements UserDetails {
     @JoinColumn(name = "student_id")
     private Student student;
 
+    @OneToOne
+    @JoinColumn(name = "child_id")
+    private Student child;
+
     protected User() {
     }
 
@@ -147,5 +151,13 @@ public class User extends DateAudit implements UserDetails {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Student getChild() {
+        return child;
+    }
+
+    public void setChild(Student child) {
+        this.child = child;
     }
 }

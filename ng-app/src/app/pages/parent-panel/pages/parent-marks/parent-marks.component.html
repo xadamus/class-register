@@ -1,4 +1,4 @@
-<h3 class="mt-4">Moje oceny</h3>
+<h3 class="mt-4">Oceny {{auth.getCurrentUser().child.fullName}}</h3>
 <ejs-grid #grid [dataSource]="subjectMarksList" gridLines="Both">
   <e-columns>
     <e-column field="subject.name" headerText="Przedmiot"></e-column>

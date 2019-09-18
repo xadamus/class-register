@@ -21,6 +21,7 @@ export class StudentManagementComponent implements OnInit {
   editedStudent: Student;
   editing: boolean;
   freeUsers: User[];
+  freeParents: User[];
 
   @ViewChild('grid')
   public grid: GridComponent;
@@ -80,18 +81,21 @@ export class StudentManagementComponent implements OnInit {
 
   editStudent(student: Student) {
     this.usersService.getFreeUsers().subscribe(value => {
-      this.freeUsers = value;
-      this.freeUsers.push(new User());
-      if (student.userId != null) {
-        const user = new User();
-        user.id = student.userId;
-        user.username = student.username;
-        this.freeUsers.push(user);
-      }
+        this.editedStudent = student;
+        this.editing = student.id != null;
+        this.modalRef = this.modalService.show(this.template);
 
-      this.editedStudent = student;
-      this.editing = student.id != null;
-      this.modalRef = this.modalService.show(this.template);
+        this.freeUsers = value.slice();
+        if (student.userId != null) {
+          const user = new User();
+          user.id = student.userId;
+          user.username = student.username;
+          this.freeUsers.push(user);
+        }
+        this.freeUsers.push(new User());
+
+        this.freeParents = value.slice();
+        this.freeParents.push(new User());
     });
   }
 

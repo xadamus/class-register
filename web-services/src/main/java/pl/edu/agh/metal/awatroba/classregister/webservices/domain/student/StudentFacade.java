@@ -30,12 +30,12 @@ public class StudentFacade implements StudentService {
 
     @Override
     public Optional<StudentPreviewDto> getStudent(Long studentId) {
-        return studentRepository.findById(studentId).map(student -> modelMapper.map(student, StudentPreviewDto.class));
+        return studentRepository.findById(studentId).map(StudentPreviewDto::of);
     }
 
     @Override
     public Collection<StudentPreviewDto> getStudents() {
-        return studentRepository.findAll().stream().map(student -> modelMapper.map(student, StudentPreviewDto.class)).collect(Collectors.toList());
+        return studentRepository.findAll().stream().map(StudentPreviewDto::of).collect(Collectors.toList());
     }
 
     @Override
@@ -84,6 +84,16 @@ public class StudentFacade implements StudentService {
             if (student.getUser() != null)
                 student.getUser().setStudent(null);
             student.setUser(null);
+        }
+        if (studentCreationDto.getParentId() != null)
+            userRepository.findById(studentCreationDto.getParentId()).ifPresent(user -> {
+                student.setParent(user);
+                user.setChild(student);
+            });
+        else {
+            if (student.getParent() != null)
+                student.getParent().setChild(null);
+            student.setParent(null);
         }
     }
 }

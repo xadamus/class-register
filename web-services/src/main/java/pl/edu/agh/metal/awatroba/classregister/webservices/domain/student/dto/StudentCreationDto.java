@@ -5,6 +5,7 @@ public class StudentCreationDto {
     private Long userId;
     private String firstName;
     private String lastName;
+    private Long parentId;
 
     public Long getId() {
         return id;
@@ -36,5 +37,13 @@ public class StudentCreationDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 }

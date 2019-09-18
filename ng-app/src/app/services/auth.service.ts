@@ -81,6 +81,7 @@ export class User {
   roles: string[] = [];
   teacher: Teacher;
   student: Student;
+  child: Student;
 }
 
 export class Token {

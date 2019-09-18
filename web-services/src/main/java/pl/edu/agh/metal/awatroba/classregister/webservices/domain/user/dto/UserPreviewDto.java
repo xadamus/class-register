@@ -17,6 +17,7 @@ public class UserPreviewDto {
 
     private TeacherPreviewDto teacher;
     private StudentPreviewDto student;
+    private StudentPreviewDto child;
 
     public static UserPreviewDto of(User user) {
         UserPreviewDto userPreviewDto = new UserPreviewDto();
@@ -31,6 +32,8 @@ public class UserPreviewDto {
             userPreviewDto.teacher = TeacherPreviewDto.of(user.getTeacher());
         if (user.getStudent() != null)
             userPreviewDto.student = StudentPreviewDto.of(user.getStudent());
+        if (user.getChild() != null)
+            userPreviewDto.child = StudentPreviewDto.of(user.getChild());
         return userPreviewDto;
     }
 
@@ -80,5 +83,13 @@ public class UserPreviewDto {
 
     public void setStudent(StudentPreviewDto student) {
         this.student = student;
+    }
+
+    public StudentPreviewDto getChild() {
+        return child;
+    }
+
+    public void setChild(StudentPreviewDto child) {
+        this.child = child;
     }
 }

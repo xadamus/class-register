@@ -8,6 +8,8 @@ public class StudentPreviewDto {
     private String userId;
     private String firstName;
     private String lastName;
+    private String parentId;
+    private String parentName;
 
     public static StudentPreviewDto of(Student student) {
         StudentPreviewDto studentPreviewDto = new StudentPreviewDto();
@@ -16,6 +18,10 @@ public class StudentPreviewDto {
         studentPreviewDto.userId = student.getUser().getId().toString();
         studentPreviewDto.firstName = student.getFirstName();
         studentPreviewDto.lastName = student.getLastName();
+        if (student.getParent() != null) {
+            studentPreviewDto.parentId = student.getParent().getId().toString();
+            studentPreviewDto.parentName = student.getParent().getUsername();
+        }
         return studentPreviewDto;
     }
 
@@ -61,5 +67,21 @@ public class StudentPreviewDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 }

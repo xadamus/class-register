@@ -14,6 +14,9 @@ public class Student {
     @OneToOne(mappedBy = "student")
     private User user;
 
+    @OneToOne(mappedBy = "child")
+    private User parent;
+
     private String firstName;
 
     private String lastName;
@@ -50,4 +53,11 @@ public class Student {
         this.lastName = lastName;
     }
 
+    public User getParent() {
+        return parent;
+    }
+
+    public void setParent(User parent) {
+        this.parent = parent;
+    }
 }
