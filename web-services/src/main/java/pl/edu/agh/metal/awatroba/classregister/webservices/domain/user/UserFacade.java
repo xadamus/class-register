@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 class UserFacade implements UserService {
 
     private UserRepository userRepository;
@@ -17,17 +18,15 @@ class UserFacade implements UserService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found."));
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik " + username + " nie znaleziony."));
     }
 
     @Override
-    @Transactional
     public User loadUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UsernameNotFoundException("User with id " + id + " not found."));
+                .orElseThrow(() -> new UsernameNotFoundException("Użytkownik (id = " + id + ") nie znaleziony."));
     }
 
 }
