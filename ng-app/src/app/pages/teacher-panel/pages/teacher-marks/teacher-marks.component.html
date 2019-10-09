@@ -26,7 +26,7 @@
                [(ngModel)]="newMark.value"
                #name="ngModel" />
       </div>
-      <button type="submit" class="btn btn-primary mb-2" (click)="addMark()">Dodaj</button>
+      <button type="submit" class="btn btn-warning mb-2" (click)="addMark()">Dodaj</button>
     </form>
     <ejs-grid #marksGrid [dataSource]="marks" [editSettings]='editSettings' [toolbar]='deleteToolbar'
               (actionComplete)='marksActionComplete($event)'

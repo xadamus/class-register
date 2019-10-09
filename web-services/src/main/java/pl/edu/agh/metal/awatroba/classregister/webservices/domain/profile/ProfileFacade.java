@@ -142,11 +142,11 @@ public class ProfileFacade implements ProfileService {
 
     @Override
     public Collection<AllocationPreviewDto> getTeacherAllocations(Long teacherId, Long semesterId) {
-        return profileRepository.findById(teacherId).map(profile ->
-                profile.getAllocations().stream()
-                        .filter(allocation -> allocation.getSemester().getId().equals(semesterId))
-                        .map(allocation -> modelMapper.map(allocation, AllocationPreviewDto.class))
-                        .collect(Collectors.toList()))
-                .orElse(Collections.emptyList());
+        return teacherRepository.findById(teacherId).map(teacher -> {
+            return allocationRepository.findByTeacher(teacher).stream()
+                            .filter(allocation -> allocation.getSemester().getId().equals(semesterId))
+                            .map(allocation -> modelMapper.map(allocation, AllocationPreviewDto.class))
+                            .collect(Collectors.toList());
+        }).orElse(Collections.emptyList());
     }
 }

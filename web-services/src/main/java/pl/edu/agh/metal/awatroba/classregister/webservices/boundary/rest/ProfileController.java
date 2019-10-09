@@ -100,7 +100,7 @@ public class ProfileController {
     @GetMapping("/{profileId}/memberships")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     public ResponseEntity<Collection<MembershipPreviewDto>> getProfileMembership(@PathVariable Long profileId,
-                                                                                 @RequestParam Long subjectId) {
+                                                                                 @RequestParam(required = false) Long subjectId) {
         Collection<MembershipPreviewDto> memberships = profileService.getMemberships(profileId);
         if (subjectId != null)
             memberships.forEach(membership -> membership.setMarks(

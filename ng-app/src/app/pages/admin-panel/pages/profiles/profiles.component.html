@@ -37,7 +37,7 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn" aria-label="Close" (click)="finishEditing()">Zamknij</button>
-    <button type="submit" class="btn btn-primary" (click)="f.form.valid && saveProfile(editedProfile)">Zapisz</button>
+    <button type="submit" class="btn btn-warning" (click)="f.form.valid && saveProfile(editedProfile)">Zapisz</button>
   </div>
 </ng-template>
 
@@ -71,7 +71,7 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary mb-2" (click)="createAllocation()">Dodaj</button>
+      <button type="submit" class="btn btn-warning mb-2" (click)="createAllocation()">Dodaj</button>
     </form>
     <ejs-grid #allocationGrid [dataSource]="allocations" [editSettings]='editSettings' [toolbar]='deleteToolbar'
               (actionComplete)='allocationActionComplete($event)'
@@ -111,7 +111,7 @@
         </select>
       </div>
 
-      <button type="submit" class="btn btn-primary mb-2" (click)="createMembership()">Dodaj</button>
+      <button type="submit" class="btn btn-warning mb-2" (click)="createMembership()">Dodaj</button>
     </form>
     <ejs-grid #membershipGrid [dataSource]="memberships" [editSettings]='editSettings' [toolbar]='deleteToolbar'
               (actionComplete)='membershipActionComplete($event)'

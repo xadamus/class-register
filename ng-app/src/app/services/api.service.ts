@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Subject} from '../pages/marks/model/subject';
-import {ContactViewModel} from '../pages/contact/contact.component';
+import {Subject} from './subjects.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,6 @@ export class ApiService {
   private PROFILES_URL = `${this.BASE_URL}/profiles`;
 
   private ALL_SUBJECTS_URL = `${this.BASE_URL}/subjects/all`;
-  private CONTACT_URL = `${this.BASE_URL}/contact`;
 
   constructor(private http: HttpClient) {
   }
@@ -132,10 +130,6 @@ export class ApiService {
 
   mark(membershipId: number, subjectId: number, markId: number) {
     return this.profileMembership(0, membershipId) + '/marks/' + markId + '?subjectId=' + subjectId;
-  }
-
-  sendMessage(message: ContactViewModel): Observable<any> {
-    return this.http.post(this.CONTACT_URL, message);
   }
 }
 
