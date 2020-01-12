@@ -14,8 +14,10 @@ public class StudentPreviewDto {
     public static StudentPreviewDto of(Student student) {
         StudentPreviewDto studentPreviewDto = new StudentPreviewDto();
         studentPreviewDto.id = student.getId();
-        studentPreviewDto.username = student.getUser().getUsername();
-        studentPreviewDto.userId = student.getUser().getId().toString();
+        if (student.getUser() != null) {
+            studentPreviewDto.username = student.getUser().getUsername();
+            studentPreviewDto.userId = student.getUser().getId().toString();
+        }
         studentPreviewDto.firstName = student.getFirstName();
         studentPreviewDto.lastName = student.getLastName();
         if (student.getParent() != null) {

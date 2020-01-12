@@ -30,6 +30,7 @@ public class StudentFacade implements StudentService {
 
     @Override
     public Optional<StudentPreviewDto> getStudent(Long studentId) {
+        checkId(studentId);
         return studentRepository.findById(studentId).map(StudentPreviewDto::of);
     }
 
@@ -57,6 +58,7 @@ public class StudentFacade implements StudentService {
 
     @Override
     public boolean deleteStudent(Long studentId) {
+        checkId(studentId);
         return studentRepository.findById(studentId).map(student -> {
             if (student.getUser() != null) {
                 student.getUser().setStudent(null);
@@ -94,6 +96,15 @@ public class StudentFacade implements StudentService {
             if (student.getParent() != null)
                 student.getParent().setChild(null);
             student.setParent(null);
+        }
+    }
+
+    private static void checkId(Long id) {
+        if (id == null) {
+            throw new NullPointerException("Null ID");
+        }
+        if (id <= 0) {
+            throw new IllegalArgumentException("Wrong ID");
         }
     }
 }

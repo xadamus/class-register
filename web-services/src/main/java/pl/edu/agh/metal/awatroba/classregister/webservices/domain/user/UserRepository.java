@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface UserRepository {
 
-    User save(User user);
+    <T extends User> T save(T user);
 
     Collection<User> findAll();
 

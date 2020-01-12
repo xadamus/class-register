@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface StudentRepository {
 
-    Student save(Student student);
+    <T extends Student> T save(T student);
 
     Collection<Student> findAll();
 
