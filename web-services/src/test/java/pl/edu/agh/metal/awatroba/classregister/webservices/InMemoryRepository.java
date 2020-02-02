@@ -8,10 +8,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class InMemoryRepository<T, ID extends Serializable> implements JpaRepository<T, ID> {
 
-    protected Map<ID, T> database = new HashMap<>();
+    protected Map<ID, T> database = new LinkedHashMap<>();
 
     @Override
     public <S extends T> S save(S entity) {
@@ -146,7 +147,7 @@ public class InMemoryRepository<T, ID extends Serializable> implements JpaReposi
 
     private <S extends T> void assignId(S entity) {
         try {
-            entity.getClass().getDeclaredMethod("setId").invoke(entity, new Random().nextLong());
+            entity.getClass().getDeclaredMethod("setId", Long.class).invoke(entity, ThreadLocalRandom.current().nextLong(1, Long.MAX_VALUE));
         } catch (Exception e) {
             throw new RuntimeException("Couldn't assign entity ID.");
         }

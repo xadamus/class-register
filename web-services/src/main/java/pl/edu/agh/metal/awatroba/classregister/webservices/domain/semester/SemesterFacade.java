@@ -1,5 +1,6 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.domain.semester;
 
+import com.google.common.base.Preconditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ class SemesterFacade implements SemesterService {
 
     @Override
     public Optional<SemesterPreviewDto> getSemester(Long semesterId) {
+        checkSemesterId(semesterId);
         return semesterRepository.findById(semesterId).map(semester -> modelMapper.map(semester, SemesterPreviewDto.class));
     }
 
@@ -42,6 +44,7 @@ class SemesterFacade implements SemesterService {
 
     @Override
     public void setCurrentSemester(Long semesterId) {
+        checkSemesterId(semesterId);
         semesterRepository.findById(semesterId).ifPresent(semester -> {
             semesterRepository.resetCurrent();
             semester.setCurrent(true);
@@ -68,5 +71,10 @@ class SemesterFacade implements SemesterService {
             semester.setPeriod(semester.getPeriod() + 1);
         }
         return Optional.of(modelMapper.map(semesterRepository.save(semester), SemesterPreviewDto.class));
+    }
+
+    private void checkSemesterId(Long semesterId) {
+        Preconditions.checkArgument(semesterId != null, "Semester ID cannot be null.");
+        Preconditions.checkArgument(semesterId > 0, "Semester ID must be a positive number.");
     }
 }

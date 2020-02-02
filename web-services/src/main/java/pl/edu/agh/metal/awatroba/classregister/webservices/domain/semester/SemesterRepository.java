@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface SemesterRepository {
 
-    Semester save(Semester semester);
+    <T extends Semester> T save(T semester);
 
     @Query("select s from Semester s order by s.year desc, s.period desc")
     Collection<Semester> findAllSorted();
