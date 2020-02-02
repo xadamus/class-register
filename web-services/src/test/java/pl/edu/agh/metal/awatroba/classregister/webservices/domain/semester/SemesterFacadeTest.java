@@ -23,9 +23,9 @@ public class SemesterFacadeTest {
      */
     @Test
     public void getSemesters() {
-        assertThat(semesterService.getSemesters().size()).isEqualTo(0);
+        assertThat(semesterService.getSemesters()).hasSize(0);
         semesterService.createSemester();
-        assertThat(semesterService.getSemesters().size()).isEqualTo(1);
+        assertThat(semesterService.getSemesters()).hasSize(1);
     }
 
     /**
@@ -33,10 +33,10 @@ public class SemesterFacadeTest {
      */
     @Test
     public void getSemesterAndCreateSemester() {
-        assertThat(semesterService.getSemester(1L).isEmpty()).isTrue();
+        assertThat(semesterService.getSemester(1L)).isEmpty();
         Optional<SemesterPreviewDto> semester = semesterService.createSemester();
-        assertThat(semester.isPresent()).isTrue();
-        assertThat(semesterService.getSemester(semester.get().getId()).isPresent()).isTrue();
+        assertThat(semester).isPresent();
+        assertThat(semesterService.getSemester(semester.get().getId())).isPresent();
     }
 
     /**
@@ -60,11 +60,11 @@ public class SemesterFacadeTest {
      */
     @Test
     public void getCurrentSemester() {
-        assertThat(semesterService.getCurrentSemester().isEmpty()).isTrue();
+        assertThat(semesterService.getCurrentSemester()).isEmpty();
         Optional<SemesterPreviewDto> semester = semesterService.createSemester();
-        assertThat(semester.isPresent()).isTrue();
+        assertThat(semester).isPresent();
         semesterService.setCurrentSemester(semester.get().getId());
-        assertThat(semesterService.getCurrentSemester().isPresent()).isTrue();
+        assertThat(semesterService.getCurrentSemester()).isPresent();
     }
 
     /**
@@ -73,9 +73,9 @@ public class SemesterFacadeTest {
     @Test
     public void setCurrentSemester() {
         Optional<SemesterPreviewDto> semester = semesterService.createSemester();
-        assertThat(semester.isPresent()).isTrue();
+        assertThat(semester).isPresent();
         semester.ifPresent(semesterPreviewDto -> semesterService.setCurrentSemester(semesterPreviewDto.getId()));
-        assertThat(semesterService.getCurrentSemester().isPresent()).isTrue();
+        assertThat(semesterService.getCurrentSemester()).isPresent();
         assertThat(semesterService.getCurrentSemester().get().getId().equals(semester.get().getId())).isTrue();
     }
 
