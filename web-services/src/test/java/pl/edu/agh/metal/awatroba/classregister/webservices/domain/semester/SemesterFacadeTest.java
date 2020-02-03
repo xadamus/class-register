@@ -75,8 +75,9 @@ public class SemesterFacadeTest {
         Optional<SemesterPreviewDto> semester = semesterService.createSemester();
         assertThat(semester).isPresent();
         semester.ifPresent(semesterPreviewDto -> semesterService.setCurrentSemester(semesterPreviewDto.getId()));
-        assertThat(semesterService.getCurrentSemester()).isPresent();
-        assertThat(semesterService.getCurrentSemester().get().getId().equals(semester.get().getId())).isTrue();
+        assertThat(semesterService.getCurrentSemester()).hasValueSatisfying(semesterPreviewDto -> {
+            assertThat(semesterPreviewDto.getId()).isEqualTo(semester.get().getId());
+        });
     }
 
     /**
