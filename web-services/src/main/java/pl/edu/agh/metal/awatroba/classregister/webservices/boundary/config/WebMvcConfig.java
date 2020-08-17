@@ -1,4 +1,4 @@
-package pl.edu.agh.metal.awatroba.classregister.webservices.boundary.security;
+package pl.edu.agh.metal.awatroba.classregister.webservices.boundary.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
