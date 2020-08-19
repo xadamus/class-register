@@ -18,9 +18,10 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/students")
-public class StudentController {
-    private StudentService studentService;
-    private MarkService markService;
+class StudentController {
+
+    private final StudentService studentService;
+    private final MarkService markService;
 
     @Autowired
     public StudentController(StudentService studentService,
@@ -31,15 +32,14 @@ public class StudentController {
 
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<Collection<StudentPreviewDto>> getStudents() {
-        return ResponseEntity.ok().body(studentService.getStudents());
+    public Collection<StudentPreviewDto> getStudents() {
+        return studentService.getStudents();
     }
 
     @GetMapping("/{studentId}")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<StudentPreviewDto> getStudent(@PathVariable Long studentId) {
+    public StudentPreviewDto getStudent(@PathVariable Long studentId) {
         return studentService.getStudent(studentId)
-                .map(studentPreviewDto -> ResponseEntity.ok().body(studentPreviewDto))
                 .orElseThrow(() -> new ResourceNotFoundException("Student", "id", String.valueOf(studentId)));
     }
 
@@ -78,8 +78,8 @@ public class StudentController {
 
     @GetMapping("/{studentId}/marks")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_PARENT", "ROLE_STUDENT"})
-    public ResponseEntity<Collection<SubjectMarksDto>> getStudentMarks(@PathVariable Long studentId) {
-        return ResponseEntity.ok(markService.getStudentMarks(studentId));
+    public Collection<SubjectMarksDto> getStudentMarks(@PathVariable Long studentId) {
+        return markService.getStudentMarks(studentId);
     }
 
 }

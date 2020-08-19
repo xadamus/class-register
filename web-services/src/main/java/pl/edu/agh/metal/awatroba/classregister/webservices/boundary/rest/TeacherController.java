@@ -18,9 +18,10 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/teachers")
-public class TeacherController {
-    private TeacherService teacherService;
-    private ProfileService profileService;
+class TeacherController {
+
+    private final TeacherService teacherService;
+    private final ProfileService profileService;
 
     @Autowired
     public TeacherController(TeacherService teacherService,

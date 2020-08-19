@@ -18,15 +18,13 @@ import pl.edu.agh.metal.awatroba.classregister.webservices.domain.user.dto.UserP
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+class UserController {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -38,9 +36,8 @@ public class UserController {
 
     @GetMapping
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Collection<UserPreviewDto>> getUsers() {
-        List<UserPreviewDto> userPreviewDtos = userRepository.findAll().stream().map(UserPreviewDto::of).collect(Collectors.toList());
-        return ResponseEntity.ok(userPreviewDtos);
+    public Collection<UserPreviewDto> getUsers() {
+        return userRepository.findAll().stream().map(UserPreviewDto::of).collect(Collectors.toList());
     }
 
     @PostMapping
@@ -101,21 +98,20 @@ public class UserController {
     }
 
     @GetMapping("/current")
-    public ResponseEntity<UserPreviewDto> getCurrentUser(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(UserPreviewDto.of(user));
+    public UserPreviewDto getCurrentUser(@AuthenticationPrincipal User user) {
+        return UserPreviewDto.of(user);
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserPreviewDto> getUser(@PathVariable String username) {
+    public UserPreviewDto getUser(@PathVariable String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found."));
-        return ResponseEntity.ok(UserPreviewDto.of(user));
+        return UserPreviewDto.of(user);
     }
 
     @GetMapping("/free")
     @Secured("ROLE_ADMIN")
-    public ResponseEntity<Collection<UserPreviewDto>> getFreeUsers() {
-        List<UserPreviewDto> userPreviewDtos = userRepository.findAllFree().stream().map(UserPreviewDto::of).collect(Collectors.toList());
-        return ResponseEntity.ok(userPreviewDtos);
+    public Collection<UserPreviewDto> getFreeUsers() {
+        return userRepository.findAllFree().stream().map(UserPreviewDto::of).collect(Collectors.toList());
     }
 }

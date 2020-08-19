@@ -1,6 +1,7 @@
 package pl.edu.agh.metal.awatroba.classregister.webservices.boundary.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profiles")
-public class ProfileController {
-    private ProfileService profileService;
-    private MarkService markService;
+class ProfileController {
+    public static final String BAD_REQUEST_MESSAGE = "Błąd zapytania.";
+
+    private final ProfileService profileService;
+    private final MarkService markService;
 
     @Autowired
     public ProfileController(ProfileService profileService,
@@ -32,15 +35,14 @@ public class ProfileController {
 
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<Collection<ProfilePreviewDto>> getProfiles() {
-        return ResponseEntity.ok().body(profileService.getProfiles());
+    public Collection<ProfilePreviewDto> getProfiles() {
+        return profileService.getProfiles();
     }
 
     @GetMapping("/{profileId}")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<ProfilePreviewDto> getProfile(@PathVariable Long profileId) {
+    public ProfilePreviewDto getProfile(@PathVariable Long profileId) {
         return profileService.getProfile(profileId)
-                .map(profilePreviewDto -> ResponseEntity.ok().body(profilePreviewDto))
                 .orElseThrow(() -> new ResourceNotFoundException("Profile", "id", profileId));
     }
 
@@ -76,16 +78,17 @@ public class ProfileController {
 
     @GetMapping("/{profileId}/allocations")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<Collection<AllocationPreviewDto>> getProfileAllocations(@PathVariable Long profileId) {
-        return ResponseEntity.ok().body(profileService.getAllocations(profileId));
+    public Collection<AllocationPreviewDto> getProfileAllocations(@PathVariable Long profileId) {
+        return profileService.getAllocations(profileId);
     }
 
     @PostMapping("/{profileId}/allocations")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<ApiResponseDto> createProfileAllocation(@RequestBody AllocationCreationDto allocationCreationDto, @PathVariable Long profileId) {
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponseDto createProfileAllocation(@RequestBody AllocationCreationDto allocationCreationDto, @PathVariable Long profileId) {
         allocationCreationDto.setProfileId(profileId);
         profileService.createAllocation(allocationCreationDto);
-        return ResponseEntity.ok().body(new ApiResponseDto(true, "Utworzono nowy przydział."));
+        return new ApiResponseDto(true, "Utworzono nowy przydział.");
     }
 
     @DeleteMapping("/{profileId}/allocations/{allocationId}")
@@ -94,27 +97,28 @@ public class ProfileController {
         if (profileService.deleteProfileAllocation(profileId, allocationId))
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto przydział."));
         else
-            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, BAD_REQUEST_MESSAGE));
     }
 
     @GetMapping("/{profileId}/memberships")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<Collection<MembershipPreviewDto>> getProfileMembership(@PathVariable Long profileId,
+    public Collection<MembershipPreviewDto> getProfileMembership(@PathVariable Long profileId,
                                                                                  @RequestParam(required = false) Long subjectId) {
         Collection<MembershipPreviewDto> memberships = profileService.getMemberships(profileId);
         if (subjectId != null)
             memberships.forEach(membership -> membership.setMarks(
                     membership.getMarks().stream().filter(mark -> mark.getSubject().getId().equals(subjectId.toString())).collect(Collectors.toList())
             ));
-        return ResponseEntity.ok().body(memberships);
+        return memberships;
     }
 
     @PostMapping("/{profileId}/memberships")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<ApiResponseDto> createProfileMembership(@RequestBody MembershipCreationDto membershipCreationDto, @PathVariable Long profileId) {
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponseDto createProfileMembership(@RequestBody MembershipCreationDto membershipCreationDto, @PathVariable Long profileId) {
         membershipCreationDto.setProfileId(profileId);
         profileService.createMembership(membershipCreationDto);
-        return ResponseEntity.ok().body(new ApiResponseDto(true, "Utworzono członkostwo."));
+        return new ApiResponseDto(true, "Utworzono członkostwo.");
     }
 
     @DeleteMapping("/{profileId}/memberships/{membershipId}")
@@ -123,7 +127,7 @@ public class ProfileController {
         if (profileService.deleteMembership(profileId, membershipId))
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto członkostwo."));
         else
-            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, BAD_REQUEST_MESSAGE));
     }
 
     // TODO: to be improved
@@ -158,7 +162,7 @@ public class ProfileController {
         if (markService.deleteMark(markId)) {
             return ResponseEntity.ok().body(new ApiResponseDto(true, "Usunięto ocenę."));
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponseDto(false, "Błąd zapytania."));
+            return ResponseEntity.badRequest().body(new ApiResponseDto(false, BAD_REQUEST_MESSAGE));
         }
     }
 }

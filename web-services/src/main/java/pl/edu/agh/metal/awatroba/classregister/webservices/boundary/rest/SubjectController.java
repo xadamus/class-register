@@ -16,9 +16,9 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/api/subjects")
-public class SubjectController {
+class SubjectController {
 
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
 
     @Autowired
     public SubjectController(SubjectService subjectService) {
@@ -27,15 +27,14 @@ public class SubjectController {
 
     @GetMapping
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER", "ROLE_PARENT", "ROLE_STUDENT"})
-    public ResponseEntity<Collection<SubjectPreviewDto>> getSubjects() {
-        return ResponseEntity.ok().body(subjectService.getSubjects());
+    public Collection<SubjectPreviewDto> getSubjects() {
+        return subjectService.getSubjects();
     }
 
     @GetMapping("/{subjectId}")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public ResponseEntity<SubjectPreviewDto> getSubject(@PathVariable Long subjectId) {
+    public SubjectPreviewDto getSubject(@PathVariable Long subjectId) {
         return subjectService.getSubject(subjectId)
-                .map(subjectPreviewDto -> ResponseEntity.ok().body(subjectPreviewDto))
                 .orElseThrow(() -> new ResourceNotFoundException("Subject", "id", subjectId));
     }
 
